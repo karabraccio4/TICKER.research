@@ -11,14 +11,19 @@ from statistics import median
 # Editable inputs
 # ---------------------------------------------------------------------------
 TARGET = {
-    "ticker": "ABG",  # Asbury Automotive Group, Inc.
-    # FY2024 GAAP diluted EPS from Asbury's FY2024 Form 10-K / earnings release.
-    "diluted_eps": 21.50,
+    "ticker": "CMG",  # Chipotle Mexican Grill, Inc.
+    # FY2025 GAAP diluted EPS from Chipotle's FY2025 Form 10-K.
+    "diluted_eps": 1.14,
 }
 
+# Add only peers you decide to use or qualify after reviewing their sources.
+# Use the same comparison-date price and annual-EPS timing policy for every peer.
 PEERS = [
-    {"ticker": "AN", "price": 169.84, "diluted_eps": 16.92},
-    {"ticker": "GPI", "price": 421.48, "diluted_eps": 36.81},
+    # CAVA FY2024 GAAP diluted EPS; December 31, 2025 closing price.
+    # Its FY2024 EPS includes a material valuation-allowance release; see source table.
+    {"ticker": "CAVA", "price": 58.69, "diluted_eps": 1.10},
+    # Sweetgreen is an operating peer, but its negative FY2024 EPS makes P/E unusable.
+    {"ticker": "SG", "price": 6.76, "diluted_eps": -0.79},
 ]
 
 
