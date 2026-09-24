@@ -2,7 +2,7 @@
 
 ## Model verification
 
-- Ran `python proforma.py` successfully.
+- Ran `python models/proforma.py` successfully.
 - The three statements balance: assets minus liabilities and equity is `$0.0 million` in FY2026E and FY2030E.
 - FY2026E revenue is `$18,323.0 million`; FY2030E revenue is `$19,678.3 million`.
 - FY2026E operating income is `$844.2 million`; FY2030E operating income is `$971.4 million`.
