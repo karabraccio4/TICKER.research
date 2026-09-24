@@ -96,7 +96,7 @@ The label I would defend the longest is **history** because it is tied directly 
 ## Confirmed by hand
 
 - FY2025 total revenue: $11,925.601 million.
-- FY2025 cash capital spending: ($666.336 million).
+- FY2025 purchases of leasehold improvements, property and equipment (cash capital spending): ($666.336 million).
 
 ## Unresolved items
 
