@@ -93,10 +93,10 @@ The label I would defend the longest is **history** because it is tied directly 
 - `python models/cmg_proforma.py` prints assets minus liabilities and equity of `0.0` for FY2026E through FY2030E; cash is above the $25.0 million minimum in every year.
 - `python models/cmg_proforma.py --break-cash` deliberately replaces FY2026E computed cash with opening cash and correctly stops with `AssertionError: FY2026E: balance sheet gap is -1348.549015 million`.
 
-## Items to verify manually
+## Confirmed by hand
 
-1. Open the FY2025 10-K and verify FY2025 total revenue of $11,925.601 million in the consolidated statements of income.
-2. In the same filing, verify FY2025 cash capex of $(666.336) million in the consolidated statements of cash flows.
+- FY2025 total revenue: $11,925.601 million.
+- FY2025 cash capital spending: ($666.336 million).
 
 ## Unresolved items
 
