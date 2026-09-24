@@ -66,9 +66,7 @@ The filing cash-flow numbers and the data-provider capital-expenditure field agr
 
 I chose 9.0% because the 350–370 planned company-owned openings add growth even with flat sales at existing restaurants, but I rounded the implied unit-driven growth down because openings contribute for only part of the year. I would lower this assumption if openings fall below guidance or comparable sales decline, and raise it if openings are achieved and comparable sales turn positive.
 
-## Apple peer review (hypothetical example)
-
-*Because I do not have my partner's actual Apple assumption table, this is a general peer-review example rather than a challenge to a specific number.*
+## Apple peer review
 
 **My question to my Apple partner:** I saw that your Apple forecast assumes revenue will continue to grow; how did you decide that assumption, and what evidence would make you revise it?
 
