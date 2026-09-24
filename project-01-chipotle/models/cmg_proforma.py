@@ -1,7 +1,70 @@
 """CMG five-year pro forma and FCFE valuation (USD millions except per-share data).
 
-Opening data: CMG FY2025 Form 10-K, accession 0001058090-26-000009.
-Forecast assumptions and evidence: research/cmg-history-and-assumptions.md.
+LAB 10 SUPPORTING EVIDENCE
+==========================
+Sources: FY2023 10-K (0001562762-24-000023):
+https://www.sec.gov/Archives/edgar/data/0001058090/000156276224000023/cmg-20231231x10k.htm
+FY2024 10-K (0001058090-25-000014):
+https://www.sec.gov/Archives/edgar/data/0001058090/000105809025000014/cmg-20241231.htm
+FY2025 10-K (0001058090-26-000009):
+https://www.sec.gov/Archives/edgar/data/0001058090/000105809026000009/cmg-20251231.htm
+
+History (USD millions; each year is sourced to its respective 10-K)
+Line                                  FY2023     FY2024     FY2025
+Revenue                            9,871.649 11,313.853 11,925.601
+Gross profit (derived*)            2,586.092  3,017.692  3,026.207
+G&A                                  633.584    697.483    652.017
+Net income                        1,228.737  1,534.110  1,535.761
+Inventory                            39.309     48.942     49.508
+Net PP&E                          2,170.038  2,390.126  2,679.361
+Shareholders' equity              3,062.207  3,655.546  2,830.607
+*CMG does not report gross profit. It is calculated as revenue less food,
+beverage and packaging, labor, occupancy, and other restaurant operating costs.
+
+Ratio                               FY2023     FY2024     FY2025
+Gross margin                         26.2%      26.7%      25.4%
+G&A / gross profit                   24.5%      23.1%      21.5%
+Inventory days                        4.9        5.3        5.1
+D&A / opening PP&E                   16.4%      15.4%      15.1%
+Cash capex                         (560.731)  (593.603)  (666.336)
+Tax rate                              24.2%      23.7%      23.6%
+Reported growth                       14.3%      14.6%       5.4%
+Comparable restaurant sales            7.9%       7.4%      (1.7)%
+
+Assumptions: value | label | reason
+FY2026 comps flat | Guidance | Management's stated outlook.
+FY2026 openings 350-370 | Guidance | Management's stated opening target.
+FY2026 revenue growth 9.0% | Judgment | New openings add sales despite flat comps;
+I round down because new restaurants contribute for only part of the year.
+FY2027-30 growth 7.0%, 6.5%, 6.0%, 5.5% | Judgment | Growth tapers as the store base grows.
+Gross margin 25.5%; G&A / GP 21.5%; inventory days 5.1; D&A / opening PP&E 15.1%;
+tax rate 23.6% | History | Each uses the latest reported historical ratio.
+FY2026 capex $834.1m | Guidance | Management's stated forecast.
+FY2027-30 capex $850m | Judgment | Keeps capex near guidance to support stores and equipment.
+Floor-plan financing none; revolver $0 drawn, $500m available | History | CMG has no floor-plan debt.
+Terminal growth 2.5%; cost of equity 9.0% | Judgment | Conservative long-run growth; provisional rate pending CAPM.
+
+Confirmed by hand: FY2025 total revenue was $11,925.601m; FY2025 purchases of
+leasehold improvements, property and equipment (cash capex) were ($666.336m).
+
+Partner review: The partner asked why FY2026 growth is 9.0% if comps are flat.
+I chose it because 350-370 openings add sales, but rounded down for partial-year
+contributions; I would lower it if openings miss guidance or comps decline and
+raise it only if openings are achieved and comps turn positive.
+My Apple attack: a hypothetical 6.0% revenue-growth judgment repeats total
+sales growth without separating Services from product-cycle and geographic risk;
+it should show the mix or a sensitivity. The recorded answer is that 6.0% matches
+FY2025 sales growth and Services growth, but would fall if iPhone, China, or
+Services demand weakens.
+
+CMG calls organic growth comparable restaurant sales. ABG's 1.8% organic growth
+excludes acquisition/portfolio effects included in its 4.7% reported growth.
+I would defend History longest because it is audited and traceable; CMG's 5.4%
+revenue growth alongside (1.7)% comparable sales was the surprising result.
+
+Check proof: normal run prints zero balance-sheet gaps and cash above a $25.0m
+floor. `python models/cmg_proforma.py --break-cash` corrupts FY2026E cash and
+raises `AssertionError: FY2026E: balance sheet gap is -1348.549015 million`.
 """
 
 import sys
