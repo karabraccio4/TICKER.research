@@ -68,13 +68,13 @@ I chose 9.0% because the 350–370 planned company-owned openings add growth eve
 
 ## Apple peer review (hypothetical example)
 
-*Because I do not have my partner's actual Apple assumption table, this example assumes that their judgment is 6.0% FY2026 revenue growth.*
+*Because I do not have my partner's actual Apple assumption table, this is a general peer-review example rather than a challenge to a specific number.*
 
-**My question to my Apple partner:** I saw that you forecast 6.0% FY2026 revenue growth; how does that assumption separate growth from iPhone and other products from growth in Services, and what evidence would make you revise it?
+**My question to my Apple partner:** I saw that your Apple forecast assumes revenue will continue to grow; how did you decide that assumption, and what evidence would make you revise it?
 
-**My attack:** Your 6.0% growth judgment repeats Apple's FY2025 total-sales growth without showing whether the higher-growth Services business is large enough to offset a slower iPhone upgrade cycle, weaker Wearables sales, or geographic pressure. Since Services grew 14% in FY2025 while total sales grew 6%, you should show the product-versus-Services revenue mix or run a sensitivity case instead of assuming that last year's total rate will automatically continue.
+**My attack:** Your revenue-growth judgment does not show whether the higher-growth Services business is large enough to offset a slower iPhone upgrade cycle, weaker Wearables sales, or geographic pressure. Since Services grew 14% in FY2025 while total sales grew 6%, you should show the product-versus-Services revenue mix or run a sensitivity case instead of assuming that last year's total rate will automatically continue.
 
-**Partner's recorded answer:** I used 6.0% as a base case because it matches FY2025 total-sales growth and is supported by 14% Services growth, which is both recurring and higher margin than products. I would reduce the forecast if iPhone demand, China sales, or Services growth weakens, and increase it only if the next product cycle and Services results support growth above the base case.
+**Partner's recorded answer:** I based my revenue-growth assumption on Apple’s FY2025 total-sales growth and on Services growth, which is recurring and higher margin than products. I would reduce the forecast if iPhone demand, China sales, or Services growth weakens, and increase it only if the next product cycle and Services results support stronger growth.
 
 Source for the example: [Apple FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm).
 

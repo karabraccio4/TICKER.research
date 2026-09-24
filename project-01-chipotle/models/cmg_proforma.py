@@ -51,11 +51,11 @@ Partner review: The partner asked why FY2026 growth is 9.0% if comps are flat.
 I chose it because 350-370 openings add sales, but rounded down for partial-year
 contributions; I would lower it if openings miss guidance or comps decline and
 raise it only if openings are achieved and comps turn positive.
-My Apple attack: a hypothetical 6.0% revenue-growth judgment repeats total
-sales growth without separating Services from product-cycle and geographic risk;
-it should show the mix or a sensitivity. The recorded answer is that 6.0% matches
-FY2025 sales growth and Services growth, but would fall if iPhone, China, or
-Services demand weakens.
+My Apple question: How did you decide your revenue-growth assumption, and what
+evidence would make you revise it? My attack: the revenue-growth judgment does
+not separate Services from product-cycle and geographic risk; it should show
+the mix or a sensitivity. The recorded answer is that it uses FY2025 sales and
+Services growth, but would fall if iPhone, China, or Services demand weakens.
 
 CMG calls organic growth comparable restaurant sales. ABG's 1.8% organic growth
 excludes acquisition/portfolio effects included in its 4.7% reported growth.
