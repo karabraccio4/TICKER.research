@@ -67,6 +67,7 @@ floor. `python models/cmg_proforma.py --break-cash` corrupts FY2026E cash and
 raises `AssertionError: FY2026E: balance sheet gap is -1348.549015 million`.
 """
 
+import copy
 import sys
 
 YEARS = range(2026, 2031)
@@ -88,6 +89,28 @@ TERMINAL_GROWTH = 0.025
 SHARES_OUTSTANDING = 1302.423  # millions; January 30, 2026 shares outstanding
 MINIMUM_CASH = 25.0
 BREAK_CASH_TEST = "--break-cash" in sys.argv
+
+# Lab 11 sensitivity inputs. Each scenario receives a fresh deep copy of BASE_INPUTS.
+BASE_INPUTS = {
+    "revenue_growth": REVENUE_GROWTH,
+    "gross_margin": GROSS_MARGIN,
+}
+SENSITIVITY_CASES = {
+    "Revenue growth": {
+        "input_key": "revenue_growth",
+        "units": "percent of revenue",
+        "lower": {2026: 0.080, 2027: 0.060, 2028: 0.055, 2029: 0.050, 2030: 0.045},
+        "base": REVENUE_GROWTH,
+        "higher": {2026: 0.100, 2027: 0.080, 2028: 0.075, 2029: 0.070, 2030: 0.065},
+    },
+    "Gross margin": {
+        "input_key": "gross_margin",
+        "units": "percent of revenue",
+        "lower": 0.245,
+        "base": GROSS_MARGIN,
+        "higher": 0.265,
+    },
+}
 
 # FY2025 opening balance sheet, USD millions.
 opening = {
@@ -143,15 +166,17 @@ def print_table(title, rows, projections):
         print(f"{label:34}" + "".join(f"{projections[y][key]:>12,.1f}" for y in YEARS))
 
 
-def main():
+def run_model(inputs, print_output=True, break_cash_test=False):
+    revenue_growth = inputs["revenue_growth"]
+    gross_margin = inputs["gross_margin"]
     if TERMINAL_GROWTH >= COST_OF_EQUITY:
         raise ValueError("Terminal growth must be less than the cost of equity.")
 
     projections = {}
     prior = opening.copy()
     for year in YEARS:
-        revenue = prior["revenue"] * (1 + REVENUE_GROWTH[year])
-        gross_profit = revenue * GROSS_MARGIN
+        revenue = prior["revenue"] * (1 + revenue_growth[year])
+        gross_profit = revenue * gross_margin
         food_labor_occupancy_other = revenue - gross_profit
         food_beverage_packaging = revenue * FOOD_BEVERAGE_PACKAGING_TO_REVENUE
         sga = gross_profit * SGA_TO_GROSS_PROFIT
@@ -194,7 +219,7 @@ def main():
         liabilities_and_equity = (accounts_payable + accrued_payroll + accrued_liabilities + unearned_revenue
                                   + operating_lease_liabilities + deferred_tax_liabilities + other_liabilities + equity)
         cash = liabilities_and_equity - noncash_assets
-        if BREAK_CASH_TEST and year == 2026:
+        if break_cash_test and year == 2026:
             cash = prior["cash"]  # Deliberately corrupt FY2026E cash to test the balance-sheet assertion.
 
         s = locals().copy()
@@ -202,6 +227,19 @@ def main():
         assert_balanced(year, s)
         projections[year] = s
         prior = s
+
+    pv_explicit = sum(projections[y]["fcfe"] / (1 + COST_OF_EQUITY) ** (y - 2025) for y in YEARS)
+    terminal_fcfe = projections[2030]["fcfe"] * (1 + TERMINAL_GROWTH)
+    pv_terminal = terminal_fcfe / (COST_OF_EQUITY - TERMINAL_GROWTH) / (1 + COST_OF_EQUITY) ** 5
+    equity_value = pv_explicit + pv_terminal
+    results = {
+        "operating_income": projections[2030]["operating_income"],
+        "fcfe": projections[2030]["fcfe"],
+        "value_per_share": equity_value / SHARES_OUTSTANDING,
+        "check": max(abs(total_assets(projections[y]) - total_liabilities_and_equity(projections[y])) for y in YEARS),
+    }
+    if not print_output:
+        return projections, results
 
     print_table("Income statement", [
         ("Revenue", "revenue"), ("Food, beverage & packaging", "food_beverage_packaging"),
@@ -229,14 +267,50 @@ def main():
     print(f"{'Assets - liabilities - equity':34}" + "".join(f"{total_assets(projections[y]) - total_liabilities_and_equity(projections[y]):>12,.1f}" for y in YEARS))
     print(f"{'Cash above minimum':34}" + "".join(f"{projections[y]['cash'] - MINIMUM_CASH:>12,.1f}" for y in YEARS))
 
-    pv_explicit = sum(projections[y]["fcfe"] / (1 + COST_OF_EQUITY) ** (y - 2025) for y in YEARS)
-    terminal_fcfe = projections[2030]["fcfe"] * (1 + TERMINAL_GROWTH)
-    pv_terminal = terminal_fcfe / (COST_OF_EQUITY - TERMINAL_GROWTH) / (1 + COST_OF_EQUITY) ** 5
-    equity_value = pv_explicit + pv_terminal
     print("\nValuation (USD millions except per-share value)")
     print(f"Equity value:                 {equity_value:,.2f}")
     print(f"Share of value after 2030:    {pv_terminal / equity_value:.1%}")
     print(f"Value per share:              ${equity_value / SHARES_OUTSTANDING:,.2f}")
+    return projections, results
+
+
+def format_input(value):
+    if isinstance(value, dict):
+        return ", ".join(f"FY{year}E {value[year]:.1%}" for year in YEARS)
+    return f"{value:.1%} in FY2026E-FY2030E"
+
+
+def print_sensitivity(base_inputs, base_results):
+    print("\nOne-at-a-time sensitivity analysis")
+    print("Outputs: FY2030E operating income and FCFE (USD millions); value per share (USD).")
+    for driver, config in SENSITIVITY_CASES.items():
+        print(f"\n{driver} ({config['units']})")
+        scenario_results = []
+        for case in ("lower", "base", "higher"):
+            scenario_inputs = copy.deepcopy(base_inputs)
+            scenario_inputs[config["input_key"]] = copy.deepcopy(config[case])
+            _, result = run_model(scenario_inputs, print_output=False)
+            scenario_results.append((case, config[case], result))
+            print(f"{case.title():6} | {format_input(config[case])}")
+            print(f"         | FY2030E operating income {result['operating_income']:,.1f} | "
+                  f"FY2030E FCFE {result['fcfe']:,.1f} | value/share ${result['value_per_share']:,.2f} | "
+                  f"check {'PASS' if result['check'] < 1e-6 else 'INVALID'}")
+            print(f"         | change from base: operating income {result['operating_income'] - base_results['operating_income']:+,.1f}; "
+                  f"FCFE {result['fcfe'] - base_results['fcfe']:+,.1f}; "
+                  f"value/share ${result['value_per_share'] - base_results['value_per_share']:+,.2f}")
+        for key, label in (("operating_income", "Operating-income span"), ("fcfe", "FCFE span"),
+                           ("value_per_share", "Value-per-share span")):
+            span = max(result[key] for _, _, result in scenario_results) - min(result[key] for _, _, result in scenario_results)
+            suffix = "USD millions" if key != "value_per_share" else "USD per share"
+            print(f"{label}: {span:,.2f} {suffix}")
+
+
+def main():
+    base_inputs = copy.deepcopy(BASE_INPUTS)
+    _, base_results = run_model(base_inputs, print_output=True, break_cash_test=BREAK_CASH_TEST)
+    print_sensitivity(base_inputs, base_results)
+    print("\nRestored base run")
+    run_model(copy.deepcopy(BASE_INPUTS), print_output=True)
 
 
 if __name__ == "__main__":
