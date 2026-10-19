@@ -1,0 +1,113 @@
+"""Integrated FCFF DCF driven by the Chipotle five-year pro forma.
+
+All amounts are USD millions except per-share values. This module imports the
+operating forecast from cmg_proforma.py; it does not enter a separate FCFF
+growth path. The WACC remains provisional until the CAPM support is documented.
+"""
+
+from __future__ import annotations
+
+import copy
+
+from cmg_proforma import (
+    BASE_INPUTS,
+    CAPEX,
+    TAX_RATE,
+    TERMINAL_GROWTH,
+    YEARS,
+    run_model,
+)
+
+
+# Provisional value pending the documented CAPM/WACC workpaper.
+WACC = 0.085
+# FY2025 diluted weighted-average shares, in millions. This is kept consistent
+# with the original DCF until an as-of-date diluted share-count bridge is added.
+DILUTED_SHARES = 1342.616
+FUNDED_DEBT = 0.0
+NON_OPERATING_CASH = 350.545
+MARKET_PRICE_AS_OF_DATE = 38.45  # CMG close on February 5, 2026.
+
+
+def fcff_from_projections(projections):
+    """Calculate FCFF directly from each pro-forma year."""
+    fcff = {}
+    for year in YEARS:
+        statement = projections[year]
+        nopat = statement["operating_income"] * (1 - TAX_RATE)
+        fcff[year] = (
+            nopat
+            + statement["depreciation"]
+            + statement["impairment"]
+            - CAPEX[year]
+            - statement["change_nwc"]
+        )
+    return fcff
+
+
+def value_dcf(fcff, wacc=WACC, terminal_growth=TERMINAL_GROWTH):
+    """Value supplied FCFF using a Gordon-growth terminal value."""
+    if terminal_growth >= wacc:
+        raise ValueError("Terminal growth must be less than WACC.")
+
+    pv_explicit = sum(
+        fcff[year] / (1 + wacc) ** (year - 2025)
+        for year in YEARS
+    )
+    terminal_fcff = fcff[2030] * (1 + terminal_growth)
+    terminal_value_2030 = terminal_fcff / (wacc - terminal_growth)
+    pv_terminal = terminal_value_2030 / (1 + wacc) ** 5
+    enterprise_value = pv_explicit + pv_terminal
+    equity_value = enterprise_value + NON_OPERATING_CASH - FUNDED_DEBT
+    return {
+        "pv_explicit": pv_explicit,
+        "terminal_value_2030": terminal_value_2030,
+        "pv_terminal": pv_terminal,
+        "enterprise_value": enterprise_value,
+        "equity_value": equity_value,
+        "value_per_share": equity_value / DILUTED_SHARES,
+        "terminal_value_share": pv_terminal / enterprise_value,
+    }
+
+
+def run_integrated_dcf(inputs=None, wacc=WACC, terminal_growth=TERMINAL_GROWTH):
+    """Run the pro forma, derive FCFF, and value it in one traceable path."""
+    if inputs is None:
+        inputs = copy.deepcopy(BASE_INPUTS)
+    projections, proforma_results = run_model(inputs, print_output=False)
+    fcff = fcff_from_projections(projections)
+    valuation = value_dcf(fcff, wacc=wacc, terminal_growth=terminal_growth)
+    return projections, proforma_results, fcff, valuation
+
+
+def assert_dcf_directionality(fcff):
+    """Fail loudly if a higher WACC or lower terminal growth raises value."""
+    base = value_dcf(fcff, wacc=WACC, terminal_growth=TERMINAL_GROWTH)
+    higher_wacc = value_dcf(fcff, wacc=WACC + 0.01, terminal_growth=TERMINAL_GROWTH)
+    lower_growth = value_dcf(fcff, wacc=WACC, terminal_growth=TERMINAL_GROWTH - 0.01)
+    if higher_wacc["value_per_share"] >= base["value_per_share"]:
+        raise AssertionError("Higher WACC did not reduce value per share.")
+    if lower_growth["value_per_share"] >= base["value_per_share"]:
+        raise AssertionError("Lower terminal growth did not reduce value per share.")
+
+
+def print_dcf():
+    _, _, fcff, valuation = run_integrated_dcf()
+    assert_dcf_directionality(fcff)
+    print("Integrated FCFF DCF (USD millions except per-share values)")
+    print("FCFF is calculated from the Chipotle pro forma, not a separate growth path.")
+    for year in YEARS:
+        print(f"FY{year}E FCFF: ${fcff[year]:,.1f}")
+    print(f"PV of explicit FCFF: ${valuation['pv_explicit']:,.1f}")
+    print(f"PV of terminal value: ${valuation['pv_terminal']:,.1f}")
+    print(f"Enterprise value: ${valuation['enterprise_value']:,.1f}")
+    print(f"Equity value: ${valuation['equity_value']:,.1f}")
+    print(f"Value per diluted share: ${valuation['value_per_share']:,.2f}")
+    print(f"Terminal-value share of enterprise value: ${valuation['terminal_value_share']:.1%}")
+    print("DCF directionality checks: PASS")
+    print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
+    print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
+
+
+if __name__ == "__main__":
+    print_dcf()

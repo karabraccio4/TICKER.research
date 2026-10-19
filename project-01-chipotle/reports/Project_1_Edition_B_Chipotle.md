@@ -40,15 +40,14 @@ The FY2025 Form 10-K was accepted by the SEC at 4:51 p.m. ET on February 4, 2026
 
 The debt conclusion refers to actual outstanding borrowings. The undrawn revolver is financing capacity, not debt to deduct from enterprise value.
 
-## Discounted cash flow valuation - base case
+## Integrated FCFF discounted cash flow valuation - base case
 
-All values are in USD millions except per-share amounts. FY2025 starting FCFF is calculated as $2,113.926 million of cash from operations less $666.336 million of purchases of leasehold improvements, property, and equipment, or $1,447.590 million. Cash is $350.545 million; funded debt is $0; and diluted weighted-average shares are 1,342.616 million.
+All values are in USD millions except per-share amounts. The DCF now derives FY2026E-FY2030E FCFF directly from the five-year Chipotle pro forma: operating income after tax, plus depreciation and impairment, less capital expenditures and the change in net working capital. It does not use a separate FCFF growth path. Cash is $350.545 million; funded debt is $0; and diluted weighted-average shares are 1,342.616 million.
 
 | DCF input | Value | Basis |
 | --- | ---: | --- |
-| Starting FCFF | $1,447.590 | FY2025 operating cash flow less capex |
-| FCFF growth, Years 1-5 | 5.0%, 7.0%, 7.0%, 6.0%, 5.0% | Base-case analyst assumptions; 2026 openings and capex guidance tempered by FY2025 comparable-sales decline |
-| WACC | 8.5% | Base-case analyst assumption |
+| FCFF | Derived from FY2026E-FY2030E pro forma | EBIT after tax + depreciation + impairment - capex - change in NWC |
+| WACC | 8.5% | Provisional base-case assumption; CAPM support remains outstanding |
 | Terminal growth | 2.5% | Base-case long-run assumption |
 | Cash and cash equivalents | $350.545 | FY2025 Form 10-K balance sheet |
 | Funded debt | $0.000 | FY2025 Form 10-K; revolving facility was undrawn |
@@ -56,20 +55,20 @@ All values are in USD millions except per-share amounts. FY2025 starting FCFF is
 
 | Model output | Value |
 | --- | ---: |
-| FCFF Year 1 | $1,519.9695 |
-| FCFF Year 2 | $1,626.3674 |
-| FCFF Year 3 | $1,740.2131 |
-| FCFF Year 4 | $1,844.6259 |
-| FCFF Year 5 | $1,936.8572 |
-| PV of five explicit FCFF | $6,763.9794 |
-| Terminal value at Year 5 | $33,087.9765 |
-| PV of terminal value | $22,005.0073 |
-| Enterprise value | $28,768.9867 |
-| Equity value | $29,119.5317 |
-| **Estimated value per diluted share** | **$21.6887** |
-| PV terminal value as share of enterprise value | 76.49% |
+| FCFF FY2026E | $1,257.5 |
+| FCFF FY2027E | $1,387.1 |
+| FCFF FY2028E | $1,536.3 |
+| FCFF FY2029E | $1,680.8 |
+| FCFF FY2030E | $1,819.4 |
+| PV of five explicit FCFF | $5,962.9 |
+| Terminal value at Year 5 | $31,070.9 |
+| PV of terminal value | $20,670.6 |
+| Enterprise value | $26,633.5 |
+| Equity value | $26,984.0 |
+| **Estimated value per diluted share** | **$20.10** |
+| PV terminal value as share of enterprise value | 77.6% |
 
-**Base-case estimated price per share: $21.69.** This is an intrinsic-value estimate, not a market-price forecast. It is especially sensitive to the 8.5% WACC, 2.5% terminal growth rate, and the growth assumptions above.
+**Base-case estimated price per share: $20.10.** This is an intrinsic-value estimate, not a market-price forecast. It is especially sensitive to the provisional 8.5% WACC, 2.5% terminal growth rate, and the pro-forma operating assumptions above.
 
 Sources: [FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1058090/000105809026000009/cmg-20251231.htm), Consolidated Balance Sheets (p. 36), Statements of Income (p. 37), and Statements of Cash Flows (p. 39); MD&A (pp. 24 and 29).
 
@@ -77,9 +76,9 @@ Sources: [FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1058090/0001
 
 | Item | Per-share value |
 | --- | ---: |
-| DCF base-case value | $21.69 |
+| DCF base-case value | $20.10 |
 | CMG market price (February 5, 2026) | $38.45 |
-| DCF value / market price | 0.56x |
+| DCF value / market price | 0.52x |
 | Required reasonableness range | 0.50x-2.00x |
 
 The DCF value is **inside** the required 0.5x-2.0x reasonableness range. No inputs were adjusted for this check. The February 5, 2026 price is the first regular-session closing price after the FY2025 Form 10-K became public after market close on February 4.
@@ -100,7 +99,7 @@ For the reverse DCF, the target price is the February 5, 2026 CMG price of $38.4
 
 ## Conditional call
 
-**Watch / defer.** Initiate only if CMG's market price falls to or below the base-case value of about $21.69 per share, or if new, sourced evidence justifies a stronger FCFF growth path. Otherwise, defer. **Monitor:** comparable restaurant sales, especially transaction growth and restaurant-level operating margin in the next quarterly filing.
+**Watch / defer.** Initiate only if CMG's market price falls to or below the base-case value of about $20.10 per share, or if new, sourced evidence justifies a stronger FCFF path. Otherwise, defer. **Monitor:** comparable restaurant sales, especially transaction growth and restaurant-level operating margin in the next quarterly filing.
 
 ## Consequential assumptions
 
