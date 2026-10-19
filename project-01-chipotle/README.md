@@ -25,6 +25,9 @@ remaining finance limitations and final-delivery work.
 - outputs/ — saved visible output from final model runs.
 - validation/ — validation evidence, cold-run log, and AI-use/normalization record.
 
+- archive/superseded/ — preserved historical drafts and legacy standalone
+  models; not part of the final runnable application.
+
 ## Install requirements
 
 From the project root, install the declared dependencies:
