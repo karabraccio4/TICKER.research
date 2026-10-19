@@ -108,9 +108,9 @@ checks both formulas during the normal run:
 
 `Value per diluted share = equity value / diluted shares`
 
-For the base case: $27,973.2m enterprise value + $350.545m cash - $0 funded
-debt = $28,323.8m equity value; divided by 1,342.616m diluted shares equals
-$21.10 per share. The October 19, 2026 normal run reports
+For the base case: $28,581.4m enterprise value + $350.545m cash - $0 funded
+debt = $28,931.9m equity value; divided by 1,342.616m diluted shares equals
+$21.55 per share. The October 19, 2026 normal run reports
 **“Enterprise-to-equity bridge check: PASS.”**
 
 ## 8. Peer-policy/multiple-definition check — COMPLETE
@@ -154,7 +154,7 @@ preserved in `feedback-from-my-partner.md` and the Lab 11 exchange is in
   DCF. Terminal-value dependence and the limited peer set remain limitations.
 - **Effect on decision:** Watch / defer remains unchanged because the
   February 5, 2026 market price of $38.45 is above the integrated DCF range of
-  $18.43-$22.77 per share.
+  $18.85-$23.25 per share.
 
 ## Remaining validation work
 

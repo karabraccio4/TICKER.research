@@ -1,17 +1,17 @@
 # Cold-Run Log
 
-**Status:** Complete
+**Status:** Complete — refreshed after the noncash-impairment FCFF correction
 
 | Field | Record |
 | --- | --- |
-| Date and time | October 19, 2026, 3:25 PM ET |
-| Fresh environment used | New Python 3.13.15 virtual environment created outside the repository at `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019`. It contained only the virtual-environment defaults before installation. |
+| Date and time | October 19, 2026, 3:35 PM ET |
+| Fresh environment used | New Python 3.13.15 virtual environment created outside the repository at `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019-post-normalization`. It contained only the virtual-environment defaults before installation. |
 | Requirements installed | `requirements.txt` contains no third-party packages because the application uses only the Python standard library. `python -m pip install --disable-pip-version-check -r requirements.txt` completed successfully. |
-| First application command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019\Scripts\python.exe run_all.py` |
+| First application command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019-post-normalization\Scripts\python.exe run_all.py` |
 | First failure or result | No application failure. Exit code 0. The pro forma, integrated FCFF DCF, comparable analyses, and official training-case reconciliation all ran and saved visible output. |
-| Time to visible output | 1.194 seconds, measured from the start of `run_all.py` to exit code 0. |
-| Fixes made | None. No source-code or dependency fix was required. An earlier combined setup command did not reach the application run before the command host's 30-second limit; this was a tooling timeout during environment setup, not a project failure. The fresh environment remained valid and the subsequent application run succeeded. |
-| Final successful command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019\Scripts\python.exe run_all.py` |
+| Time to visible output | 1.218 seconds, measured from the start of `run_all.py` to exit code 0. |
+| Fixes made | Before this refreshed run, the normalization review identified that the integrated FCFF calculation subtracted impairment through EBIT but did not add the noncash impairment charge back. `models/cmg_integrated_dcf.py` was corrected to add the forecast impairment charge in FCFF, and the resulting DCF, scenario, reverse-DCF, report, validation, and output figures were regenerated. No dependency fix was required. |
+| Final successful command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019-post-normalization\Scripts\python.exe run_all.py` |
 | Output location | `outputs/latest-model-output.txt` |
 
 ## Result preserved

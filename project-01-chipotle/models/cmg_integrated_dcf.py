@@ -53,6 +53,7 @@ def fcff_from_projections(projections):
         fcff[year] = (
             nopat
             + statement["depreciation"]
+            + statement["impairment"]
             - statement["capital_spending"]
             - statement["change_nwc"]
         )

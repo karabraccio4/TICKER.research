@@ -151,39 +151,39 @@ cmg_integrated_dcf.py
 ========================================================================
 Integrated FCFF DCF (USD millions except per-share values)
 FCFF is calculated from the Chipotle pro forma, not a separate growth path.
-FY2026E FCFF: $1,227.5
-FY2027E FCFF: $1,355.0
-FY2028E FCFF: $1,502.1
-FY2029E FCFF: $1,644.6
-FY2030E FCFF: $1,781.2
-PV of explicit FCFF: $5,895.0
-PV of terminal value: $22,078.2
-Enterprise value: $27,973.2
-Equity value: $28,323.8
-Value per diluted share: $21.10
+FY2026E FCFF: $1,257.5
+FY2027E FCFF: $1,387.1
+FY2028E FCFF: $1,536.3
+FY2029E FCFF: $1,680.8
+FY2030E FCFF: $1,819.4
+PV of explicit FCFF: $6,029.6
+PV of terminal value: $22,551.7
+Enterprise value: $28,581.4
+Equity value: $28,931.9
+Value per diluted share: $21.55
 Terminal-value share of enterprise value: $78.9%
 DCF directionality checks: PASS
 Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS
 Enterprise-to-equity bridge check: PASS
 Market price on February 5, 2026: $38.45
 Market capitalization on February 5, 2026: $51,623.6 million
-Base value / market price: $0.55x
+Base value / market price: $0.56x
 
 Integrated low / base / high scenarios
 Each named operating case runs through all five pro-forma years and the FCFF DCF.
 Scenario             FY2030E revenue    FY2030E EBIT    FY2030E FCFF            EV    Equity value    Value/share
-Low / downside             15,003.7         2,225.5         1,541.5      24,398.8        24,749.3          18.43
-Base                       16,565.3         2,591.9         1,781.2      27,973.2        28,323.8          21.10
-High / upside              17,674.3         2,856.6         1,936.1      30,221.9        30,572.5          22.77
-DCF valuation range (low to high): $18.43 to $22.77 per diluted share; base: $21.10.
+Low / downside             15,003.7         2,225.5         1,576.1      24,952.1        25,302.7          18.85
+Base                       16,565.3         2,591.9         1,819.4      28,581.4        28,931.9          21.55
+High / upside              17,674.3         2,856.6         1,976.8      30,868.1        31,218.6          23.25
+DCF valuation range (low to high): $18.85 to $23.25 per diluted share; base: $21.55.
 
 Integrated reverse DCF: market-implied revenue-growth hurdle
 Valuation date and target market price: February 5, 2026 / $38.45
 Same-date market capitalization: $51,623.6 million
 Held at base case: gross margin, capital spending, WACC, terminal growth, cash, funded debt, and diluted shares.
-Solved uniform revenue-growth shift: +10.73% each year
-Market-implied revenue-growth path: FY2026E 19.7%, FY2027E 17.7%, FY2028E 17.2%, FY2029E 16.7%, FY2030E 16.2%
-At that path: FY2030E revenue $26,740.5m; EBIT $4,563.0m; FCFF $3,399.8m; value/share $38.45.
+Solved uniform revenue-growth shift: +10.37% each year
+Market-implied revenue-growth path: FY2026E 19.4%, FY2027E 17.4%, FY2028E 16.9%, FY2029E 16.4%, FY2030E 15.9%
+At that path: FY2030E revenue $26,333.7m; EBIT $4,484.2m; FCFF $3,395.4m; value/share $38.45.
 Interpretation: this is a one-variable hurdle under the model's base margin and reinvestment assumptions, not a forecast or a probability.
 
 ========================================================================
