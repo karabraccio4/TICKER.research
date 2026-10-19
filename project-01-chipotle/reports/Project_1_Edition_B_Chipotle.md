@@ -6,7 +6,7 @@
 
 **Recommendation:** Watch / defer  
 **Intended user:** Investment Committee  
-**Valuation date:** December 31, 2025  
+**Valuation date:** February 5, 2026  
 **Prepared from:** FY2025 Form 10-K
 
 ## Decision
@@ -24,6 +24,8 @@ The Investment Committee should defer initiating a position pending completion o
 - **Units:** Dollar and share amounts in the notes to the financial statements are in thousands unless otherwise specified.
 
 Sources: [SEC filing detail](https://www.sec.gov/Archives/edgar/data/1058090/000105809026000009/0001058090-26-000009-index.htm); [FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1058090/000105809026000009/cmg-20251231.htm), cover page and Note 1.
+
+The FY2025 Form 10-K was accepted by the SEC at 4:51 p.m. ET on February 4, 2026, after the regular market close. February 5, 2026 is therefore the first full trading-day valuation date following public availability of the filing.
 
 ## Filing evidence
 
@@ -76,13 +78,13 @@ Sources: [FY2025 Form 10-K](https://www.sec.gov/Archives/edgar/data/1058090/0001
 | Item | Per-share value |
 | --- | ---: |
 | DCF base-case value | $21.69 |
-| Current CMG market price (September 10, 2026) | $36.03 |
-| DCF value / market price | 0.60x |
+| CMG market price (February 5, 2026) | $38.45 |
+| DCF value / market price | 0.56x |
 | Required reasonableness range | 0.50x-2.00x |
 
-The DCF value is **inside** the required 0.5x-2.0x reasonableness range. No inputs were adjusted for this check. The current price is the latest available CMG quote as of September 10, 2026; the prior regular-session close was also $36.03 on September 9, 2026.
+The DCF value is **inside** the required 0.5x-2.0x reasonableness range. No inputs were adjusted for this check. The February 5, 2026 price is the first regular-session closing price after the FY2025 Form 10-K became public after market close on February 4.
 
-Source: [Chipotle investor relations - historical stock price](https://ir.chipotle.com/historical-stock-price) (accessed September 10, 2026).
+Sources: [SEC filing detail](https://www.sec.gov/Archives/edgar/data/1058090/000105809026000009/0001058090-26-000009-index.htm); [CMG historical price data](https://finance.yahoo.com/quote/CMG/history/), February 5, 2026 close.
 
 ## Sensitivity grid and reverse DCF
 
@@ -94,7 +96,7 @@ The sensitivity grid holds starting FCFF, cash, debt, diluted shares, and the fi
 | 10% | $16.52 | $18.28 | $20.63 |
 | 11% | $14.68 | $16.00 | $17.69 |
 
-For the reverse DCF, the target price is the current CMG price of $36.03. The model applies one uniform shift to all five base explicit FCFF growth rates (5.0%, 7.0%, 7.0%, 6.0%, and 5.0%) while holding starting FCFF ($1,447.590m), WACC (8.5%), terminal growth (2.5%), cash ($350.545m), debt ($0), and diluted shares (1,342.616m) fixed. Bisection over the required -5.0% to +10.0% shift bracket found **no solution in this bracket**: the $36.03 target is not reachable without expanding the prescribed search range or changing another input. This is an assumption check, not proof of mispricing.
+For the reverse DCF, the target price is the February 5, 2026 CMG price of $38.45. The model applies one uniform shift to all five base explicit FCFF growth rates (5.0%, 7.0%, 7.0%, 6.0%, and 5.0%) while holding starting FCFF ($1,447.590m), WACC (8.5%), terminal growth (2.5%), cash ($350.545m), debt ($0), and diluted shares (1,342.616m) fixed. Bisection over the required -5.0% to +10.0% shift bracket found **no solution in this bracket**: the $38.45 target is not reachable without expanding the prescribed search range or changing another input. This is an assumption check, not proof of mispricing.
 
 ## Conditional call
 

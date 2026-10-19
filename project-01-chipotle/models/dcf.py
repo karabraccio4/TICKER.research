@@ -23,7 +23,7 @@ sensitivity_waccs = [0.09, 0.10, 0.11]
 sensitivity_terminal_growths = [0.02, 0.03, 0.04]
 
 # Reverse-DCF inputs (edit these values as needed).
-reverse_target_share_price = 36.03
+reverse_target_share_price = 38.45
 reverse_lower_shift = -0.05
 reverse_upper_shift = 0.10
 reverse_tolerance = 0.000001

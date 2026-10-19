@@ -19,11 +19,11 @@ TARGET = {
 # Add only peers you decide to use or qualify after reviewing their sources.
 # Use the same comparison-date price and annual-EPS timing policy for every peer.
 PEERS = [
-    # CAVA FY2024 GAAP diluted EPS; December 31, 2025 closing price.
+    # CAVA FY2024 GAAP diluted EPS; February 5, 2026 closing price.
     # Its FY2024 EPS includes a material valuation-allowance release; see source table.
-    {"ticker": "CAVA", "price": 58.69, "diluted_eps": 1.10},
+    {"ticker": "CAVA", "price": 64.55, "diluted_eps": 1.10},
     # Sweetgreen is an operating peer, but its negative FY2024 EPS makes P/E unusable.
-    {"ticker": "SG", "price": 6.76, "diluted_eps": -0.79},
+    {"ticker": "SG", "price": 5.89, "diluted_eps": -0.79},
 ]
 
 
