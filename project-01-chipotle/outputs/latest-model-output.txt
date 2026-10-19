@@ -183,3 +183,14 @@ Reference P/E and implied price: 58.681818x -> $66.90
 Peer-removal check
 Remove CAVA: no estimate (no usable peers remain).
 Remove SG: reference implied price (one usable peer remains; no range) $66.90; change from full-peer estimate $+0.00
+
+========================================================================
+ev_ebitda_comparables.py
+========================================================================
+Comparable-company EV/EBITDA (USD millions except prices and per-share values)
+Convention: exclude operating lease liabilities from debt and use reported EBITDA.
+CMG: market cap $51,623.6; EV $51,273.0; EBITDA $2,297.2; EV/EBITDA 22.32x
+CAVA: market cap $7,487.0; EV $7,120.9; EBITDA $103.5; EV/EBITDA 68.82x
+SG: market cap $697.7; EV $482.9; EBITDA $-28.4; EV/EBITDA not meaningful (nonpositive EBITDA).
+
+CAVA reference only: 68.82x applied to CMG EBITDA $2,297.2 = implied CMG EV $158,089.0; implied equity value $158,439.5; implied value per share $118.01.

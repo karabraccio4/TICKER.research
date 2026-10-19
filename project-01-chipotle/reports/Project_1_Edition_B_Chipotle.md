@@ -89,6 +89,14 @@ Sources: [SEC filing detail](https://www.sec.gov/Archives/edgar/data/1058090/000
 
 The earlier standalone sensitivity grid and reverse-DCF result are not used in this Edition B because they were based on a separate FCFF growth path and the former 8.5% WACC. The final grid and reverse-DCF analysis must be recalculated from the integrated pro-forma FCFF model using the documented 8.10% WACC. The integrated model currently verifies the expected direction: a higher WACC or lower terminal growth lowers value, and the lower pro-forma revenue-growth case lowers both FY2030E FCFF and value per share.
 
+## Comparable-company valuation
+
+The peer policy qualifies CAVA and Sweetgreen as operating peers and excludes franchise-heavy Shake Shack. On the February 5, 2026 valuation date, CAVA produces the only usable multiple reference: **58.68x P/E**, implying $66.90 per CMG share, and **68.82x reported EV/EBITDA**, implying $118.01 per CMG share. Sweetgreen has negative FY2024 EPS and reported EBITDA, so neither multiple is meaningful.
+
+The analysis excludes operating lease liabilities from debt and calculates EBITDA consistently as operating income plus depreciation and amortization. This matches the DCF's lease convention. CAVA's FY2024 valuation-allowance release affects its P/E, while EV/EBITDA excludes that tax effect but does not capture capital expenditures or working-capital investment. The peer results therefore are single-peer reference points, not a valuation range, and they are not averaged with the DCF. The DCF remains the primary intrinsic-value method because it models CMG's forecast FCFF and reinvestment directly.
+
+See [peer policy and comparable calculations](../My_Own_Peer_Policy.md) and `models/ev_ebitda_comparables.py` for the full inputs, definitions, sources, and qualifications.
+
 ## Conditional call
 
 **Watch / defer.** Initiate only if CMG's market price falls to or below the base-case value of about $21.10 per share, or if new, sourced evidence justifies a stronger FCFF path. Otherwise, defer. **Monitor:** comparable restaurant sales, especially transaction growth and restaurant-level operating margin in the next quarterly filing.
@@ -102,7 +110,6 @@ The earlier standalone sensitivity grid and reverse-DCF result are not used in t
 
 ## Unknowns
 
-- The CMG closing share price and market capitalization applicable to the selected valuation date.
 - The portion of reported cash that is excess rather than operational.
 - The ability to restore transaction growth and sustain comparable-sales growth.
 - New-restaurant and Chipotlane investment requirements, unit economics, and incremental returns.
@@ -111,7 +118,7 @@ The earlier standalone sensitivity grid and reverse-DCF result are not used in t
 ## Research plan
 
 1. Revisit the DCF assumptions and test conservative, base, and upside cases.
-2. Obtain the valuation-date closing price and calculate market capitalization using the appropriate diluted share convention.
+2. Obtain a second EV/EBITDA-usable company-operated peer or explain why the existing single-peer references should remain only corroborative evidence.
 3. Analyze unit economics, including development costs, restaurant-level margins, lease obligations, and returns on new restaurants.
 4. Develop scenarios for comparable sales, transaction recovery, unit openings, and operating margin; include a downside case with continued transaction pressure.
 5. Value the scenarios and identify the assumption with the greatest effect on the investment conclusion.

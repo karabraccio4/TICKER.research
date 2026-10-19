@@ -13,6 +13,7 @@ SCRIPTS = (
     ROOT / "models" / "cmg_proforma.py",
     ROOT / "models" / "cmg_integrated_dcf.py",
     ROOT / "models" / "pe_comparables.py",
+    ROOT / "models" / "ev_ebitda_comparables.py",
 )
 
 

@@ -15,7 +15,7 @@ and its evidence is preserved.
 - [x] Balance-sheet and cash-flow articulation checks: the October 19, 2026 local run showed zero balance-sheet gap and zero cash-flow-ending-cash-to-balance-sheet-cash gap for FY2026E-FY2030E.
 - [x] DCF directionality check: the integrated DCF fails if higher WACC or lower terminal growth raises value
 - [ ] Enterprise-to-equity bridge check
-- [ ] Peer-policy and multiple-definition consistency check
+- [x] Peer-policy and multiple-definition consistency check: `My_Own_Peer_Policy.md` applies the same February 5, 2026 market-date convention and the same funded-debt-only lease convention to P/E and EV/EBITDA. `models/ev_ebitda_comparables.py` rejects Sweetgreen's nonpositive EBITDA rather than treating the multiple as meaningful.
 - [ ] Highest-risk failure test
 - [ ] Fresh-environment cold-run evidence
 
