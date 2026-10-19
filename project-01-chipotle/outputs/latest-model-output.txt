@@ -169,6 +169,12 @@ Market price on February 5, 2026: $38.45
 Market capitalization on February 5, 2026: $51,623.6 million
 Base value / market price: $0.56x
 
+Integrated WACC / terminal-growth sensitivity (value per diluted share)
+WACC \ terminal growth           2.0%        2.5%        3.0%
+7.10%                    $      24.11$      26.30$      29.03
+8.10%                    $      20.10$      21.55$      23.29
+9.10%                    $      17.22$      18.24$      19.43
+
 Integrated low / base / high scenarios
 Each named operating case runs through all five pro-forma years and the FCFF DCF.
 Scenario             FY2030E revenue    FY2030E EBIT    FY2030E FCFF            EV    Equity value    Value/share

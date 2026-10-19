@@ -42,6 +42,8 @@ MARKET_CAPITALIZATION_AS_OF_DATE = MARKET_PRICE_AS_OF_DATE * DILUTED_SHARES
 REVERSE_REVENUE_GROWTH_SHIFT_BRACKET = (-0.10, 0.30)
 REVERSE_TOLERANCE = 0.000001
 REVERSE_MAX_ITERATIONS = 200
+SENSITIVITY_WACCS = (WACC - 0.01, WACC, WACC + 0.01)
+SENSITIVITY_TERMINAL_GROWTHS = (0.02, TERMINAL_GROWTH, 0.03)
 
 
 def fcff_from_projections(projections):
@@ -240,6 +242,23 @@ def print_scenario_valuations():
     )
 
 
+def print_wacc_growth_sensitivity(fcff):
+    """Print value/share for the integrated WACC-terminal-growth grid."""
+    print("\nIntegrated WACC / terminal-growth sensitivity (value per diluted share)")
+    print(f"{'WACC \\ terminal growth':<25}" + "".join(
+        f"{growth:>12.1%}" for growth in SENSITIVITY_TERMINAL_GROWTHS
+    ))
+    for wacc in SENSITIVITY_WACCS:
+        values = []
+        for growth in SENSITIVITY_TERMINAL_GROWTHS:
+            if growth >= wacc:
+                values.append(f"{'invalid':>12}")
+            else:
+                value = value_dcf(fcff, wacc=wacc, terminal_growth=growth)["value_per_share"]
+                values.append(f"${value:>11.2f}")
+        print(f"{wacc:<25.2%}" + "".join(values))
+
+
 def print_reverse_dcf():
     """Explain the one-variable operating hurdle implied by the market price."""
     result = solve_reverse_dcf()
@@ -295,6 +314,7 @@ def print_dcf():
     print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
     print(f"Market capitalization on February 5, 2026: ${MARKET_CAPITALIZATION_AS_OF_DATE:,.1f} million")
     print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
+    print_wacc_growth_sensitivity(fcff)
     print_scenario_valuations()
     print_reverse_dcf()
 

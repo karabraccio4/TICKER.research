@@ -1,6 +1,6 @@
 # Project 1 - Edition B
 
-> Working Edition B snapshot created October 19, 2026 from the developed Chipotle report. It is separate from the preserved, unchanged Edition A checkpoint. Final submission still requires the integrated FCFF/pro-forma model, validation evidence, required comparable metrics, recordings, transcripts, and the other remaining deliverables.
+> Final Edition B summary prepared October 19, 2026. It is separate from the preserved, unchanged Edition A checkpoint and summarizes the linked model, sources, outputs, and validation evidence rather than replacing them.
 
 ## Chipotle Mexican Grill, Inc. (NYSE: CMG)
 
@@ -11,7 +11,7 @@
 
 ## Decision
 
-The Investment Committee should defer initiating a position pending completion of valuation work. Chipotle combines revenue growth, continued restaurant expansion, substantial liquidity, and no outstanding revolver borrowings. However, comparable restaurant sales declined during FY2025 as transactions declined, and the Form 10-K alone does not demonstrate that the market price at the valuation date offers an adequate margin of safety. The central question for further work is whether transaction growth and unit economics can support the earnings growth embedded in the market valuation.
+**Watch / defer.** CMG closed at $38.45 on February 5, 2026, above the integrated DCF range of $18.85-$23.25 per diluted share. Chipotle has continued unit-expansion potential, liquidity, and no funded revolver borrowings, but FY2025 comparable restaurant sales declined 1.7% as transactions declined 2.9%. Do not initiate at the valuation-date price. Reconsider only if the market price falls into or below the valuation range, or if new, sourced operating evidence supports a materially stronger cash-flow path.
 
 ## Company, filing, and reporting basis
 
@@ -108,7 +108,15 @@ The market price is above the high-case DCF value by $15.20 per share. The same 
 
 ## Sensitivity grid and reverse DCF
 
-The earlier standalone sensitivity grid is not used in this Edition B because it was based on a separate FCFF growth path and the former 8.5% WACC. The integrated model verifies the expected direction: a higher WACC or lower terminal growth lowers value, and the lower pro-forma revenue-growth case lowers both FY2030E FCFF and value per share. A rebuilt WACC-terminal-growth grid remains to be added.
+The earlier standalone sensitivity grid is not used in this Edition B because it was based on a separate FCFF growth path and the former 8.5% WACC. The rebuilt grid below uses the integrated pro-forma FCFF and documented 8.10% WACC. It changes only WACC and terminal growth; all explicit cash flows remain at base case.
+
+| WACC / terminal growth | 2.0% | 2.5% | 3.0% |
+| --- | ---: | ---: | ---: |
+| 7.10% | $24.11 | $26.30 | $29.03 |
+| 8.10% | $20.10 | **$21.55** | $23.29 |
+| 9.10% | $17.22 | $18.24 | $19.43 |
+
+The grid passes the expected direction check: value falls as WACC increases and rises as terminal growth increases. It is a sensitivity analysis, not a probability distribution. Its $17.22-$29.03 range is separate from the causal low/base/high operating-case range of $18.85-$23.25.
 
 The integrated reverse DCF uses the same February 5, 2026 market price of $38.45. It holds the base gross margin, capex, WACC, terminal growth, cash, funded debt, and diluted shares constant, then solves for one uniform additive shift to every annual pro-forma revenue-growth assumption. To reach the market price, the model requires a **+10.37 percentage-point** shift in every forecast year: revenue growth of **19.4%, 17.4%, 16.9%, 16.4%, and 15.9%** from FY2026E through FY2030E. That path produces FY2030E revenue of $26,333.7 million, EBIT of $4,484.2 million, and FCFF of $3,395.4 million. This is a one-variable operating hurdle under the model, not a forecast, probability, or claim about what the market literally assumes. A mix of different margins, capex, WACC, terminal growth, and revenue assumptions could also support the observed price.
 
@@ -120,11 +128,15 @@ The analysis excludes operating lease liabilities from debt and calculates EBITD
 
 See [peer policy and comparable calculations](../My_Own_Peer_Policy.md) and `models/ev_ebitda_comparables.py` for the full inputs, definitions, sources, and qualifications.
 
-## Conditional call
+## Conditional call, monitoring, and reversal triggers
 
-**Watch / defer.** The February 5, 2026 market price of $38.45 is above the integrated DCF range of $18.85-$23.25 per diluted share. Initiate only if CMG's market price falls into or below that range, or if new, sourced evidence justifies a materially stronger FCFF path. Otherwise, defer. **Monitor:** comparable restaurant sales, especially transaction growth and restaurant-level operating margin in the next quarterly filing.
+**Watch / defer.** The February 5, 2026 market price of $38.45 is above the integrated DCF range of $18.85-$23.25 per diluted share. Initiate only if CMG's market price falls into or below that range, or if new, sourced evidence justifies a materially stronger FCFF path. Otherwise, defer.
 
-## Consequential assumptions
+- **Monitor:** comparable restaurant sales and transaction growth; restaurant openings versus the 350-370 FY2026 plan; restaurant-level margin; food and labor costs; capital-expenditure guidance; and the portion of cash required for operations.
+- **Potential positive reversal:** sustained transaction recovery, delivery of unit openings without disproportionate capex or margin pressure, and a valuation-date price that offers a margin of safety versus a revised, source-supported FCFF range.
+- **Potential negative reversal:** continuing transaction declines, missed openings, lower margins from food/labor costs, or higher reinvestment needs that reduce FCFF below the downside case.
+
+## Key assumptions and limitations
 
 1. Cash and cash equivalents are assumed to be available to equity holders in the DCF equity bridge. This is a simplifying valuation assumption; further work must determine what portion is needed for operations.
 2. Zero revolver borrowings represent debt outstanding at the reporting date. The $500.0 million undrawn facility is not a debt balance.
@@ -145,6 +157,17 @@ See [peer policy and comparable calculations](../My_Own_Peer_Policy.md) and `mod
 3. Analyze unit economics, including development costs, restaurant-level margins, lease obligations, and returns on new restaurants.
 4. Investigate the probability of the named scenarios using subsequent transaction, unit-opening, margin, and capex evidence.
 5. Identify the assumption with the greatest effect on the investment conclusion using the integrated sensitivity table.
+
+## Evidence and artifact map
+
+This summary is supported by the following detailed, locally runnable evidence:
+
+- [Preserved Edition A checkpoint](Project_1_Edition_A_Chipotle_Original_Submitted.md)
+- [Five-year pro forma](../models/cmg_proforma.py) and [integrated FCFF DCF](../models/cmg_integrated_dcf.py)
+- [P/E comparable analysis](../models/pe_comparables.py), [EV/EBITDA comparable analysis](../models/ev_ebitda_comparables.py), and [peer policy](../My_Own_Peer_Policy.md)
+- [Source map and forecast assumptions](../research/cmg-history-and-assumptions.md), [scenario assumptions](../research/scenario-assumptions.md), and [WACC support](../research/wacc-support.md)
+- [Saved visible model output](../outputs/latest-model-output.txt) and [single run command](../run_all.py)
+- [Validation record](../validation/validation-record.md), [training-case reconciliation](../validation/training_case_reconciliation.py), [cold-run log](../validation/cold-run-log.md), and [AI-use/normalization record](../validation/ai-use-and-normalization-record.md)
 
 ## Partner falsification question
 
