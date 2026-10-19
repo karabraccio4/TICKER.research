@@ -1,20 +1,29 @@
 # Project 1 Validation Record — Chipotle
 
-**Status:** Partially complete. This record distinguishes completed, saved
-evidence from the one test that cannot be completed without the class-provided
-training case. All values are USD millions unless stated otherwise.
+**Status:** Substantially complete. This record distinguishes completed, saved
+evidence from remaining validation work. All values are USD millions unless
+stated otherwise.
 
-## 1. Known-answer/training-case reconciliation — OPEN
+## 1. Known-answer/training-case reconciliation — COMPLETE
 
-- **Required input/result:** the course's synthetic or known-answer training
-  case and its published expected result.
-- **Current evidence:** none is present in this repository. The preserved
-  Edition A identifies this as future work; it does not supply the case.
-- **What is needed to close it:** enter the class-supplied inputs in a
-  dedicated test, run it, and save actual-versus-expected outputs with the
-  difference and pass/fail criterion.
-
-No result has been invented or represented as passing.
+- **Official source:** “The Training-Case DCF, Worked End to End,” supplied in
+  the Week 6 materials. The training case uses FCFF of $100m in the year just
+  ended; five annual growth rates of 8%, 6%, 5%, 4%, and 3%; 3% terminal
+  growth; 10% WACC; $50m cash; $300m debt; and 50m diluted shares.
+- **Test implementation:** `validation/training_case_reconciliation.py` calls
+  the project's actual `value_dcf()` function with the official five-year FCFF
+  path: $108.0000m, $114.4800m, $120.2040m, $125.0122m, and $128.7625m.
+- **Actual vs. published rounded result:** PV of explicit FCFF $448.4408m vs.
+  $448.44m; terminal value $1,894.6486m vs. $1,894.65m; PV of terminal value
+  $1,176.4277m vs. $1,176.43m; EV $1,624.8685m vs. $1,624.87m; equity value
+  $1,374.8685m vs. $1,374.87m; and value per diluted share $27.4974 vs.
+  $27.50.
+- **Grid check:** all nine official WACC/terminal-growth grid cells reconcile
+  within $0.01 per share. The reverse-DCF zero-shift check also reconciles the
+  $27.50 rounded base value.
+- **Result:** PASS. Small differences are from the handout's displayed
+  rounding; the test retains the unrounded FCFF path and accepts differences
+  no greater than $0.01 on dollar outputs and $0.001 on the terminal share.
 
 ## 2. Independent source and definition check — COMPLETE
 
@@ -149,5 +158,4 @@ preserved in `feedback-from-my-partner.md` and the Lab 11 exchange is in
 
 ## Remaining validation work
 
-1. Obtain and run the class-provided known-answer/training-case reconciliation.
-2. Complete the separate fresh-environment cold-run log.
+1. Complete the separate fresh-environment cold-run log.

@@ -40,12 +40,13 @@ From the project root, run:
 
     python run_all.py
 
-This command runs the five-year pro forma, the integrated FCFF DCF, and the
-P/E plus EV/EBITDA comparable analyses. It prints results to the terminal and
-saves a combined visible-output file at outputs/latest-model-output.txt. The
-integrated DCF imports the Chipotle pro forma and derives FCFF from the forecast
-operating statements. Its CAPM WACC support and lease-liability convention are
-in research/wacc-support.md.
+This command runs the five-year pro forma, the integrated FCFF DCF, P/E and
+EV/EBITDA comparable analyses, and the official DCF training-case
+reconciliation. It prints results to the terminal and saves a combined
+visible-output file at outputs/latest-model-output.txt. The integrated DCF
+imports the Chipotle pro forma and derives FCFF from the forecast operating
+statements. Its CAPM WACC support and lease-liability convention are in
+research/wacc-support.md.
 
 ## Outputs and validation records
 

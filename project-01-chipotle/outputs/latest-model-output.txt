@@ -213,3 +213,30 @@ CAVA: market cap $7,487.0; EV $7,120.9; EBITDA $103.5; EV/EBITDA 68.82x
 SG: market cap $697.7; EV $482.9; EBITDA $-28.4; EV/EBITDA not meaningful (nonpositive EBITDA).
 
 CAVA reference only: 68.82x applied to CMG EBITDA $2,297.2 = implied CMG EV $158,089.0; implied equity value $158,439.5; implied value per share $118.01.
+
+========================================================================
+training_case_reconciliation.py
+========================================================================
+Official training-case DCF reconciliation (USD millions except per-share values)
+pv_explicit                  actual   448.4408 | expected   448.4400 | difference   +0.0008
+terminal_value_2030          actual  1894.6486 | expected  1894.6500 | difference   -0.0014
+pv_terminal                  actual  1176.4277 | expected  1176.4300 | difference   -0.0023
+enterprise_value             actual  1624.8685 | expected  1624.8700 | difference   -0.0015
+equity_value                 actual  1374.8685 | expected  1374.8700 | difference   -0.0015
+value_per_share              actual    27.4974 | expected    27.5000 | difference   -0.0026
+terminal_value_share         actual     0.7240 | expected     0.7240 | difference   +0.0000
+
+Official WACC / terminal-growth grid (value per diluted share)
+WACC 9%, g 2%                actual    28.5989 | expected    28.6000 | difference   -0.0011
+WACC 9%, g 3%                actual    32.9426 | expected    32.9400 | difference   +0.0026
+WACC 9%, g 4%                actual    39.0238 | expected    39.0200 | difference   +0.0038
+WACC 10%, g 2%               actual    24.3564 | expected    24.3600 | difference   -0.0036
+WACC 10%, g 3%               actual    27.4974 | expected    27.5000 | difference   -0.0026
+WACC 10%, g 4%               actual    31.6853 | expected    31.6900 | difference   -0.0047
+WACC 11%, g 2%               actual    21.0579 | expected    21.0600 | difference   -0.0021
+WACC 11%, g 3%               actual    23.4140 | expected    23.4100 | difference   +0.0040
+WACC 11%, g 4%               actual    26.4433 | expected    26.4400 | difference   +0.0033
+
+Reverse-DCF zero-shift check
+Base value equals target     actual    27.4974 | expected    27.5000 | difference   -0.0026
+PASS: official training case reconciles to the published rounded outputs.

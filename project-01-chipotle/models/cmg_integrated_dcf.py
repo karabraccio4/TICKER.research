@@ -59,7 +59,14 @@ def fcff_from_projections(projections):
     return fcff
 
 
-def value_dcf(fcff, wacc=WACC, terminal_growth=TERMINAL_GROWTH):
+def value_dcf(
+    fcff,
+    wacc=WACC,
+    terminal_growth=TERMINAL_GROWTH,
+    non_operating_cash=NON_OPERATING_CASH,
+    funded_debt=FUNDED_DEBT,
+    diluted_shares=DILUTED_SHARES,
+):
     """Value supplied FCFF using a Gordon-growth terminal value."""
     if terminal_growth >= wacc:
         raise ValueError("Terminal growth must be less than WACC.")
@@ -72,14 +79,14 @@ def value_dcf(fcff, wacc=WACC, terminal_growth=TERMINAL_GROWTH):
     terminal_value_2030 = terminal_fcff / (wacc - terminal_growth)
     pv_terminal = terminal_value_2030 / (1 + wacc) ** 5
     enterprise_value = pv_explicit + pv_terminal
-    equity_value = enterprise_value + NON_OPERATING_CASH - FUNDED_DEBT
+    equity_value = enterprise_value + non_operating_cash - funded_debt
     return {
         "pv_explicit": pv_explicit,
         "terminal_value_2030": terminal_value_2030,
         "pv_terminal": pv_terminal,
         "enterprise_value": enterprise_value,
         "equity_value": equity_value,
-        "value_per_share": equity_value / DILUTED_SHARES,
+        "value_per_share": equity_value / diluted_shares,
         "terminal_value_share": pv_terminal / enterprise_value,
     }
 

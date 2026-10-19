@@ -14,6 +14,7 @@ SCRIPTS = (
     ROOT / "models" / "cmg_integrated_dcf.py",
     ROOT / "models" / "pe_comparables.py",
     ROOT / "models" / "ev_ebitda_comparables.py",
+    ROOT / "validation" / "training_case_reconciliation.py",
 )
 
 
