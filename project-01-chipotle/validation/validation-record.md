@@ -158,4 +158,7 @@ preserved in `feedback-from-my-partner.md` and the Lab 11 exchange is in
 
 ## Remaining validation work
 
-1. Complete the separate fresh-environment cold-run log.
+No additional validation test is currently open. The completed fresh-environment
+run is recorded in `validation/cold-run-log.md`. Validation does not remove the
+documented finance limitations, including terminal-value dependence, the
+single-peer comparable reference, and the absence of scenario probabilities.

@@ -1,18 +1,22 @@
 # Cold-Run Log
 
-Status: **Not yet performed**
+**Status:** Complete
 
-Perform one complete run in a fresh environment before submission. Record the
-first command, first failure (if any), elapsed time to visible output, fix, and
-final successful command. Do not backfill or invent this record.
-
-| Field | Record after the cold run |
+| Field | Record |
 | --- | --- |
-| Date and time | |
-| Fresh environment/setup steps | |
-| First command | |
-| First failure or result | |
-| Elapsed time to visible output | |
-| Fix applied, if any | |
-| Final successful command | |
-| Output location | |
+| Date and time | October 19, 2026, 3:25 PM ET |
+| Fresh environment used | New Python 3.13.15 virtual environment created outside the repository at `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019`. It contained only the virtual-environment defaults before installation. |
+| Requirements installed | `requirements.txt` contains no third-party packages because the application uses only the Python standard library. `python -m pip install --disable-pip-version-check -r requirements.txt` completed successfully. |
+| First application command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019\Scripts\python.exe run_all.py` |
+| First failure or result | No application failure. Exit code 0. The pro forma, integrated FCFF DCF, comparable analyses, and official training-case reconciliation all ran and saved visible output. |
+| Time to visible output | 1.194 seconds, measured from the start of `run_all.py` to exit code 0. |
+| Fixes made | None. No source-code or dependency fix was required. An earlier combined setup command did not reach the application run before the command host's 30-second limit; this was a tooling timeout during environment setup, not a project failure. The fresh environment remained valid and the subsequent application run succeeded. |
+| Final successful command | `C:\Users\KARABR~1\AppData\Local\Temp\cmg-project-coldrun-20261019\Scripts\python.exe run_all.py` |
+| Output location | `outputs/latest-model-output.txt` |
+
+## Result preserved
+
+The final cold run includes the normal three-statement checks, the integrated
+DCF directionality and enterprise-to-equity bridge checks, comparable-company
+outputs, and the official training-case reconciliation. The combined result is
+saved in `outputs/latest-model-output.txt`.

@@ -14,8 +14,8 @@ forma, and a developing comparable-company analysis.
   Chipotle's FY2025 Form 10-K became public after market close on February 4.
 
 The preserved Edition A baseline and working Edition B are in the reports
-folder. The application remains incomplete; open gaps are identified in the
-validation records and should not be represented as completed evidence.
+folder. The validation record distinguishes completed test evidence from the
+remaining finance limitations and final-delivery work.
 
 ## Project layout
 
@@ -58,6 +58,6 @@ research/wacc-support.md.
 
 ## Before submission
 
-Complete the open validation records, add the integrated WACC-terminal-growth
-sensitivity grid, perform the cold run, and add recordings and corrected
-transcripts.
+Add the integrated WACC-terminal-growth sensitivity grid, then complete the
+required recordings, corrected transcripts, and final submission integrity
+checks.
