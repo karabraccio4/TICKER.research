@@ -156,16 +156,16 @@ FY2027E FCFF: $1,355.0
 FY2028E FCFF: $1,502.1
 FY2029E FCFF: $1,644.6
 FY2030E FCFF: $1,781.2
-PV of explicit FCFF: $5,829.7
-PV of terminal value: $20,236.6
-Enterprise value: $26,066.3
-Equity value: $26,416.8
-Value per diluted share: $19.68
-Terminal-value share of enterprise value: $77.6%
+PV of explicit FCFF: $5,895.0
+PV of terminal value: $22,078.2
+Enterprise value: $27,973.2
+Equity value: $28,323.8
+Value per diluted share: $21.10
+Terminal-value share of enterprise value: $78.9%
 DCF directionality checks: PASS
 Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS
 Market price on February 5, 2026: $38.45
-Base value / market price: $0.51x
+Base value / market price: $0.55x
 
 ========================================================================
 pe_comparables.py

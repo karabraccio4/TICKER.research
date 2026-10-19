@@ -48,7 +48,7 @@ Only CAVA is currently usable for a P/E calculation. Its February 5, 2026 price 
 
 | Valuation method | Value per CMG share | Basis | Key limitation |
 | --- | ---: | --- | --- |
-| DCF | $19.68 | FY2026E-FY2030E FCFF derived from the Chipotle pro forma; 8.5% provisional WACC; 2.5% terminal growth; $350.545 million cash; no funded debt; 1,342.616 million diluted shares. | The terminal value represents 77.6% of enterprise value, so the result is highly sensitive to long-run growth and the discount rate. |
+| DCF | $21.10 | FY2026E-FY2030E FCFF derived from the Chipotle pro forma; 8.10% CAPM WACC; 2.5% terminal growth; $350.545 million cash; no funded debt; 1,342.616 million diluted shares. See [WACC support](research/wacc-support.md). | The terminal value represents 78.9% of enterprise value, so the result is highly sensitive to long-run growth and the discount rate. |
 | Peer P/E | $66.90 | CAVA's 58.68x P/E ($64.55 February 5, 2026 closing price ÷ $1.10 FY2024 diluted EPS) × Chipotle FY2025 diluted EPS of $1.14. | This is a single-peer reference, not a range. CAVA's FY2024 EPS includes a material valuation-allowance release, and the earnings periods do not match. Sweetgreen cannot contribute a P/E because its EPS is negative. |
 
 **Provisional call: Watch / defer.** The DCF and peer reference differ materially, and the peer result is not sufficiently supported to override the DCF because it relies on one qualified peer and mixed-period reported EPS. Before revising the call, obtain a second P/E-usable peer or determine whether a normalized CAVA EPS supports using CAVA as the single reference.

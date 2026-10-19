@@ -8,7 +8,7 @@ and its evidence is preserved.
 ## Required evidence
 
 - [ ] Known-answer or synthetic training-case reconciliation
-- [ ] Independent source and definition check on a load-bearing input
+- [x] Independent source and definition check on a load-bearing input: the CAPM WACC inputs, funded-debt treatment, tax rate, and operating-lease convention are documented with dated Treasury, Damodaran, price, and FY2025 10-K sources in `research/wacc-support.md`.
 - [ ] Directional changed-input prediction written before execution
 - [ ] Locked Changed-Input Record with timestamp/commit, units, prediction, actual result, and decision effect
 - [x] Base-year reconciliation to the filing: `models/cmg_proforma.py` checks FY2025 revenue ($11,925.601m), cash ($350.545m), inventory ($49.508m), PP&E ($2,679.361m), and equity ($2,830.607m) against the model's 10-K base year.

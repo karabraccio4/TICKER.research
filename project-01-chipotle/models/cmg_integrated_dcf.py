@@ -2,7 +2,7 @@
 
 All amounts are USD millions except per-share values. This module imports the
 operating forecast from cmg_proforma.py; it does not enter a separate FCFF
-growth path. The WACC remains provisional until the CAPM support is documented.
+growth path. CAPM/WACC support is documented in research/wacc-support.md.
 """
 
 from __future__ import annotations
@@ -20,8 +20,14 @@ from cmg_proforma import (
 )
 
 
-# Provisional value pending the documented CAPM/WACC workpaper.
-WACC = 0.085
+# February 5, 2026 CAPM inputs: 4.21% risk-free rate + 0.92 beta x 4.23% ERP.
+# CMG has no funded debt under the project's operating-lease convention, so
+# WACC equals the cost of equity. See research/wacc-support.md for sources.
+RISK_FREE_RATE = 0.0421
+BETA = 0.92
+EQUITY_RISK_PREMIUM = 0.0423
+COST_OF_EQUITY = RISK_FREE_RATE + BETA * EQUITY_RISK_PREMIUM
+WACC = COST_OF_EQUITY
 # FY2025 diluted weighted-average shares, in millions. This is kept consistent
 # with the original DCF until an as-of-date diluted share-count bridge is added.
 DILUTED_SHARES = 1342.616
