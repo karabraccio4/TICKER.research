@@ -9,6 +9,27 @@ Open: `reports/Project_1_Edition_A_Chipotle_Original_Submitted.md`,
 `reports/Project_1_Edition_B_Chipotle.md`,
 `research/cmg-history-and-assumptions.md`, and the FY2025 Form 10-K.
 
+### Screen sequence
+
+1. **Introduction / investment question:** GitHub repository home page or
+   `reports/Project_1_Edition_B_Chipotle.md` title and recommendation.
+2. **Original Edition A and company selection:**
+   `reports/Project_1_Edition_A_Chipotle_Original_Submitted.md`, showing its
+   Decision and Filing Evidence sections.
+3. **Fiscal year, filing date, and valuation date explanation:** browser tab
+   with the FY2025 10-K cover page showing “fiscal year ended December 31,
+   2025”; then Edition B's Company, filing, and reporting basis section,
+   which explains the February 4 filing and February 5 valuation date.
+4. **Filing evidence:** 10-K MD&A in the browser or Edition B's Filing evidence
+   table. Point to comparable sales, transactions, cash, debt, and openings.
+5. **Research evolution and forecast assumptions:**
+   `research/cmg-history-and-assumptions.md`, especially Assumption set for the
+   CMG forecast; then `models/cmg_proforma.py` only briefly if helpful.
+6. **AI use and independent verification:**
+   `validation/ai-use-and-normalization-record.md`, then
+   `research/wacc-support.md` for the 8.10% WACC and beta limitation.
+7. **Closing conclusion:** Edition B's Decision or Conditional call section.
+
 “Hi, this is my Chipotle Project 1 research-evolution video. My investment
 question is whether a fund with no current Chipotle position should initiate,
 watch/defer, or avoid the stock.
@@ -52,6 +73,27 @@ Open `README.md`, `run_all.py`, `models/cmg_proforma.py`, and
 `models/cmg_integrated_dcf.py` in VS Code. Run `python run_all.py`, then show
 `outputs/latest-model-output.txt` and the validation files.
 
+### Screen sequence
+
+1. **Introduction and how to run the project:** `README.md` in VS Code, showing
+   the `python run_all.py` command and output location.
+2. **Operating-model architecture:** `models/cmg_proforma.py`; scroll to
+   `BASE_INPUTS`, `SCENARIO_CASES`, and the three-statement checks. Do not try
+   to read all code aloud.
+3. **DCF architecture:** `models/cmg_integrated_dcf.py`; show
+   `fcff_from_projections`, `value_dcf`, the WACC constants, and the bridge
+   check.
+4. **Live normal run:** VS Code terminal running `python run_all.py`; pause on
+   the balance-sheet/cash checks, integrated DCF result, sensitivity grid,
+   low/base/high cases, and training-case PASS output.
+5. **Saved validation evidence:** `outputs/latest-model-output.txt`,
+   `validation/validation-record.md`, and
+   `validation/training_case_reconciliation.py`.
+6. **Highest-risk failure test and cold run:**
+   `validation/validation-record.md` section 9 or
+   `validation/cold-run-log.md`. You may show the break-cash command/error from
+   the saved record instead of deliberately interrupting your live recording.
+
 “This is my code-and-validation demonstration for Chipotle. The README gives
 the exact command to run the application. The core operating model is
 `cmg_proforma.py`, which forecasts the income statement, balance sheet, and
@@ -81,6 +123,25 @@ environment.”
 
 Open `reports/Project_1_Edition_B_Chipotle.md`,
 `outputs/latest-model-output.txt`, and `My_Own_Peer_Policy.md`.
+
+### Screen sequence
+
+1. **Recommendation and date basis:** Edition B's heading and Decision section.
+   Keep the February 5, 2026 valuation-date language visible.
+2. **DCF range versus market price:** Edition B's Integrated low, base, and
+   high scenarios table and the same-date comparison table.
+3. **Operating thesis and evidence:** Edition B's Filing evidence table or the
+   FY2025 10-K MD&A browser tab for comparable-sales, transaction, and opening
+   evidence.
+4. **Downside and high case:** Edition B's scenario table, with
+   `research/scenario-assumptions.md` ready if you want to explain the drivers.
+5. **Sensitivity and reverse DCF:** Edition B's Sensitivity grid and reverse
+   DCF section.
+6. **Comparable-method disagreement:** `My_Own_Peer_Policy.md` and Edition B's
+   Comparable-company valuation section. Point out why you do not average the
+   peer result with the DCF.
+7. **Monitor and reversal triggers:** Edition B's Conditional call, monitoring,
+   and reversal triggers section.
 
 “My recommendation is Watch/Defer. I used FY2025 financial statements ending
 December 31, 2025 and a February 5, 2026 valuation date, which was the first
