@@ -1,5 +1,7 @@
 # Lab 11 — Input Notes
 
+**Fresh-eyes learning partner:** Katie (Apple)
+
 ## CMG: cost of equity
 
 Value per share comes from the five-year FCFE amounts plus the terminal value, discounted back using the 9.0% cost of equity. I think changing the cost-of-equity input will affect value per share because it changes the present value of both the five-year cash flows and the terminal value.

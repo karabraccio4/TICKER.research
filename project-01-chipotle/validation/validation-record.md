@@ -129,9 +129,11 @@ FY2026E calculated cash with opening cash.
 assertion fails loudly. The ordinary command, `python run_all.py`, passes;
 do not use the break-cash command as a normal production run.
 
-## 10. Fresh-eyes partner challenge and response — PARTIALLY COMPLETE
+## 10. Fresh-eyes partner challenge and response — COMPLETE
 
-The partner feedback is preserved in `feedback-from-my-partner.md`.
+**Challenger:** Katie, whose company was Apple. The partner feedback is
+preserved in `feedback-from-my-partner.md` and the Lab 11 exchange is in
+`research/lab-11-input-notes.md`.
 
 - **Challenge:** Why do the DCF and FCFE pro-forma values differ, and what is
   the largest limitation? The partner also recommended a CAPM-supported cost
@@ -144,12 +146,8 @@ The partner feedback is preserved in `feedback-from-my-partner.md`.
 - **Effect on decision:** Watch / defer remains unchanged because the
   February 5, 2026 market price of $38.45 is above the integrated DCF range of
   $18.43-$22.77 per share.
-- **Open credit item:** the partner's name is not recorded in the existing
-  notes. Add the challenger's name before final submission if the instructor
-  requires named attribution.
 
 ## Remaining validation work
 
 1. Obtain and run the class-provided known-answer/training-case reconciliation.
 2. Complete the separate fresh-environment cold-run log.
-3. Add the partner's name to the fresh-eyes record if required by the course.

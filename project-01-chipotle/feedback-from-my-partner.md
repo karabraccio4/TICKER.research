@@ -1,5 +1,7 @@
 # Feedback From My Partner — Chipotle
 
+**Fresh-eyes reviewer:** Katie (Apple)
+
 ## Questions received and my responses
 
 - **Selection and evidence question:** Why did you select Chipotle when FY2025 comparable restaurant sales fell 1.7% and transactions fell 2.9%?
