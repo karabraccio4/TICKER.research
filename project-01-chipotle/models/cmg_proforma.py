@@ -94,6 +94,7 @@ BREAK_CASH_TEST = "--break-cash" in sys.argv
 BASE_INPUTS = {
     "revenue_growth": REVENUE_GROWTH,
     "gross_margin": GROSS_MARGIN,
+    "capex": CAPEX,
 }
 SENSITIVITY_CASES = {
     "Revenue growth": {
@@ -109,6 +110,44 @@ SENSITIVITY_CASES = {
         "lower": 0.245,
         "base": GROSS_MARGIN,
         "higher": 0.265,
+    },
+}
+
+# Integrated operating cases for the FCFF DCF.  These are deliberately
+# multi-driver cases, rather than one-at-a-time sensitivities: the downside
+# combines weaker traffic/comparable-sales performance with fewer openings and
+# margin pressure; the upside assumes a transaction recovery and stronger
+# restaurant execution, together with the incremental investment it requires.
+# Values are analyst scenarios, not management guidance or probabilities.
+SCENARIO_CASES = {
+    "Low / downside": {
+        "description": (
+            "Weaker transactions and comparable sales, fewer openings, and food/labor "
+            "pressure. Lower capital spending reflects the slower opening pace."
+        ),
+        "inputs": {
+            "revenue_growth": {2026: 0.040, 2027: 0.045, 2028: 0.050, 2029: 0.050, 2030: 0.050},
+            "gross_margin": 0.245,
+            "capex": {2026: 700.0, 2027: 725.0, 2028: 750.0, 2029: 750.0, 2030: 750.0},
+        },
+    },
+    "Base": {
+        "description": (
+            "Current supported assumptions: openings support sales despite flat FY2026 "
+            "comparable sales, with a historical gross-margin ratio and guided FY2026 capex."
+        ),
+        "inputs": BASE_INPUTS,
+    },
+    "High / upside": {
+        "description": (
+            "Transaction recovery and successful openings lift sales, while stronger execution "
+            "supports margin. Higher capital spending funds the larger growth investment."
+        ),
+        "inputs": {
+            "revenue_growth": {2026: 0.110, 2027: 0.090, 2028: 0.080, 2029: 0.070, 2030: 0.060},
+            "gross_margin": 0.262,
+            "capex": {2026: 925.0, 2027: 950.0, 2028: 950.0, 2029: 950.0, 2030: 950.0},
+        },
     },
 }
 
@@ -186,6 +225,7 @@ def print_table(title, rows, projections):
 def run_model(inputs, print_output=True, break_cash_test=False):
     revenue_growth = inputs["revenue_growth"]
     gross_margin = inputs["gross_margin"]
+    capex = inputs["capex"]
     if TERMINAL_GROWTH >= COST_OF_EQUITY:
         raise ValueError("Terminal growth must be less than the cost of equity.")
 
@@ -212,7 +252,8 @@ def run_model(inputs, print_output=True, break_cash_test=False):
         income_tax_receivable = revenue * opening["income_tax_receivable"] / opening["revenue"]
         investments = opening["investments"]
         restricted_cash = opening["restricted_cash"]
-        ppe = prior["ppe"] + CAPEX[year] - depreciation
+        capital_spending = capex[year]
+        ppe = prior["ppe"] + capital_spending - depreciation
         operating_lease_assets = revenue * opening["operating_lease_assets"] / opening["revenue"]
         other_assets = revenue * opening["other_assets"] / opening["revenue"]
         accounts_payable = revenue * opening["accounts_payable"] / opening["revenue"]
@@ -228,7 +269,7 @@ def run_model(inputs, print_output=True, break_cash_test=False):
                       - (accounts_payable + accrued_payroll + accrued_liabilities + unearned_revenue)
                       - ((prior["accounts_receivable"] + prior["inventory"] + prior["prepaids"] + prior["income_tax_receivable"])
                          - (prior["accounts_payable"] + prior["accrued_payroll"] + prior["accrued_liabilities"] + prior["unearned_revenue"])))
-        fcfe = net_income + depreciation + impairment - CAPEX[year] - change_nwc
+        fcfe = net_income + depreciation + impairment - capital_spending - change_nwc
 
         # Cash is the balancing account after the operational forecast. CMG has no floor-plan debt.
         noncash_assets = (accounts_receivable + inventory + prepaids + income_tax_receivable + investments
@@ -242,7 +283,7 @@ def run_model(inputs, print_output=True, break_cash_test=False):
         s = locals().copy()
         s["cash"] = cash
         cash_from_operations = net_income + depreciation + impairment - change_nwc
-        cash_from_investing = -CAPEX[year]
+        cash_from_investing = -capital_spending
         cash_change = cash - prior["cash"]
         other_modeled_cash_effects = cash_change - cash_from_operations - cash_from_investing
         ending_cash_from_cash_flow = (
@@ -302,7 +343,7 @@ def run_model(inputs, print_output=True, break_cash_test=False):
         ("Other modeled cash effects", "other_modeled_cash_effects"),
         ("Net change in cash", "cash_change"),
         ("Ending cash from cash flow", "ending_cash_from_cash_flow"),
-    ], {y: {**s, "capex": -CAPEX[y], "change_nwc": -s["change_nwc"]} for y, s in projections.items()})
+    ], {y: {**s, "capex": -s["capital_spending"], "change_nwc": -s["change_nwc"]} for y, s in projections.items()})
     print("\nChecks (USD millions)")
     print(f"{'':34}" + "".join(f"{year:>12}" for year in YEARS))
     print(f"{'Assets - liabilities - equity':34}" + "".join(f"{total_assets(projections[y]) - total_liabilities_and_equity(projections[y]):>12,.1f}" for y in YEARS))

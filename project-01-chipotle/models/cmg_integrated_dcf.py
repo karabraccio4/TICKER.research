@@ -11,7 +11,7 @@ import copy
 
 from cmg_proforma import (
     BASE_INPUTS,
-    CAPEX,
+    SCENARIO_CASES,
     SENSITIVITY_CASES,
     TAX_RATE,
     TERMINAL_GROWTH,
@@ -45,7 +45,7 @@ def fcff_from_projections(projections):
         fcff[year] = (
             nopat
             + statement["depreciation"]
-            - CAPEX[year]
+            - statement["capital_spending"]
             - statement["change_nwc"]
         )
     return fcff
@@ -112,6 +112,56 @@ def assert_proforma_driver_linkage():
         raise AssertionError("Lower revenue growth did not reduce DCF value per share.")
 
 
+def run_scenario_valuations():
+    """Run named operating cases through the pro forma, FCFF, and DCF bridge."""
+    scenario_results = {}
+    for name, case in SCENARIO_CASES.items():
+        projections, _, fcff, valuation = run_integrated_dcf(
+            copy.deepcopy(case["inputs"])
+        )
+        scenario_results[name] = {
+            "description": case["description"],
+            "fy2030_revenue": projections[2030]["revenue"],
+            "fy2030_ebit": projections[2030]["operating_income"],
+            "fy2030_fcff": fcff[2030],
+            **valuation,
+        }
+
+    low = scenario_results["Low / downside"]["value_per_share"]
+    base = scenario_results["Base"]["value_per_share"]
+    high = scenario_results["High / upside"]["value_per_share"]
+    if not low < base < high:
+        raise AssertionError("Named scenario values must be ordered low < base < high.")
+    return scenario_results
+
+
+def print_scenario_valuations():
+    """Print the final-year operating and valuation outputs for each named case."""
+    scenarios = run_scenario_valuations()
+    print("\nIntegrated low / base / high scenarios")
+    print("Each named operating case runs through all five pro-forma years and the FCFF DCF.")
+    print(
+        f"{'Scenario':<18}{'FY2030E revenue':>18}{'FY2030E EBIT':>16}"
+        f"{'FY2030E FCFF':>16}{'EV':>14}{'Equity value':>16}{'Value/share':>15}"
+    )
+    for name in ("Low / downside", "Base", "High / upside"):
+        result = scenarios[name]
+        print(
+            f"{name:<18}{result['fy2030_revenue']:>17,.1f}"
+            f"{result['fy2030_ebit']:>16,.1f}"
+            f"{result['fy2030_fcff']:>16,.1f}"
+            f"{result['enterprise_value']:>14,.1f}"
+            f"{result['equity_value']:>16,.1f}"
+            f"{result['value_per_share']:>15,.2f}"
+        )
+    print(
+        "DCF valuation range (low to high): "
+        f"${scenarios['Low / downside']['value_per_share']:.2f} to "
+        f"${scenarios['High / upside']['value_per_share']:.2f} per diluted share; "
+        f"base: ${scenarios['Base']['value_per_share']:.2f}."
+    )
+
+
 def print_dcf():
     _, _, fcff, valuation = run_integrated_dcf()
     assert_dcf_directionality(fcff)
@@ -130,6 +180,7 @@ def print_dcf():
     print("Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS")
     print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
     print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
+    print_scenario_valuations()
 
 
 if __name__ == "__main__":

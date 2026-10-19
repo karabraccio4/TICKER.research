@@ -167,6 +167,14 @@ Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS
 Market price on February 5, 2026: $38.45
 Base value / market price: $0.55x
 
+Integrated low / base / high scenarios
+Each named operating case runs through all five pro-forma years and the FCFF DCF.
+Scenario             FY2030E revenue    FY2030E EBIT    FY2030E FCFF            EV    Equity value    Value/share
+Low / downside             15,003.7         2,225.5         1,541.5      24,398.8        24,749.3          18.43
+Base                       16,565.3         2,591.9         1,781.2      27,973.2        28,323.8          21.10
+High / upside              17,674.3         2,856.6         1,936.1      30,221.9        30,572.5          22.77
+DCF valuation range (low to high): $18.43 to $22.77 per diluted share; base: $21.10.
+
 ========================================================================
 pe_comparables.py
 ========================================================================
