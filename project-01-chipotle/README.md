@@ -57,6 +57,6 @@ in research/wacc-support.md.
 
 ## Before submission
 
-Complete the open validation records, save final visible outputs, add the
-integrated sensitivity and reverse-DCF outputs, perform the cold run, and add
-recordings and corrected transcripts.
+Complete the open validation records, add the integrated WACC-terminal-growth
+sensitivity grid, perform the cold run, and add recordings and corrected
+transcripts.

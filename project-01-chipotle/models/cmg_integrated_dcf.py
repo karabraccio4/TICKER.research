@@ -34,6 +34,14 @@ DILUTED_SHARES = 1342.616
 FUNDED_DEBT = 0.0
 NON_OPERATING_CASH = 350.545
 MARKET_PRICE_AS_OF_DATE = 38.45  # CMG close on February 5, 2026.
+MARKET_CAPITALIZATION_AS_OF_DATE = MARKET_PRICE_AS_OF_DATE * DILUTED_SHARES
+# Reverse DCF: apply one additive shift to each annual pro-forma revenue-growth
+# assumption while holding base margin, capex, WACC, terminal growth, cash, and
+# funded debt constant. The bracket is deliberately wide enough to test whether
+# the same-date market price can be reached under that one-variable framing.
+REVERSE_REVENUE_GROWTH_SHIFT_BRACKET = (-0.10, 0.30)
+REVERSE_TOLERANCE = 0.000001
+REVERSE_MAX_ITERATIONS = 200
 
 
 def fcff_from_projections(projections):
@@ -135,6 +143,58 @@ def run_scenario_valuations():
     return scenario_results
 
 
+def value_for_revenue_growth_shift(shift):
+    """Return integrated DCF results after a uniform revenue-growth shift."""
+    inputs = copy.deepcopy(BASE_INPUTS)
+    inputs["revenue_growth"] = {
+        year: BASE_INPUTS["revenue_growth"][year] + shift for year in YEARS
+    }
+    if any(rate <= -1 for rate in inputs["revenue_growth"].values()):
+        raise ValueError("Reverse-DCF growth shift makes revenue nonpositive.")
+    return run_integrated_dcf(inputs)
+
+
+def solve_reverse_dcf():
+    """Solve for the revenue-growth shift that matches the same-date market price."""
+    lower_shift, upper_shift = REVERSE_REVENUE_GROWTH_SHIFT_BRACKET
+    _, _, _, lower_value = value_for_revenue_growth_shift(lower_shift)
+    _, _, _, upper_value = value_for_revenue_growth_shift(upper_shift)
+
+    if not (
+        lower_value["value_per_share"]
+        <= MARKET_PRICE_AS_OF_DATE
+        <= upper_value["value_per_share"]
+    ):
+        return None
+
+    midpoint_shift = None
+    midpoint_value = None
+    for _ in range(REVERSE_MAX_ITERATIONS):
+        midpoint_shift = (lower_shift + upper_shift) / 2
+        _, _, _, midpoint_value = value_for_revenue_growth_shift(midpoint_shift)
+        if abs(midpoint_value["value_per_share"] - MARKET_PRICE_AS_OF_DATE) <= REVERSE_TOLERANCE:
+            break
+        if midpoint_value["value_per_share"] < MARKET_PRICE_AS_OF_DATE:
+            lower_shift = midpoint_shift
+        else:
+            upper_shift = midpoint_shift
+
+    inputs = copy.deepcopy(BASE_INPUTS)
+    implied_growth = {
+        year: BASE_INPUTS["revenue_growth"][year] + midpoint_shift for year in YEARS
+    }
+    inputs["revenue_growth"] = implied_growth
+    projections, _, fcff, valuation = run_integrated_dcf(inputs)
+    return {
+        "growth_shift": midpoint_shift,
+        "implied_growth": implied_growth,
+        "fy2030_revenue": projections[2030]["revenue"],
+        "fy2030_ebit": projections[2030]["operating_income"],
+        "fy2030_fcff": fcff[2030],
+        **valuation,
+    }
+
+
 def print_scenario_valuations():
     """Print the final-year operating and valuation outputs for each named case."""
     scenarios = run_scenario_valuations()
@@ -162,6 +222,40 @@ def print_scenario_valuations():
     )
 
 
+def print_reverse_dcf():
+    """Explain the one-variable operating hurdle implied by the market price."""
+    result = solve_reverse_dcf()
+    print("\nIntegrated reverse DCF: market-implied revenue-growth hurdle")
+    print(f"Valuation date and target market price: February 5, 2026 / ${MARKET_PRICE_AS_OF_DATE:.2f}")
+    print(f"Same-date market capitalization: ${MARKET_CAPITALIZATION_AS_OF_DATE:,.1f} million")
+    print(
+        "Held at base case: gross margin, capital spending, WACC, terminal growth, "
+        "cash, funded debt, and diluted shares."
+    )
+    if result is None:
+        lower, upper = REVERSE_REVENUE_GROWTH_SHIFT_BRACKET
+        print(
+            "No solution in the tested revenue-growth-shift bracket "
+            f"({lower:+.1%} to {upper:+.1%})."
+        )
+        return
+
+    growth_text = ", ".join(
+        f"FY{year}E {result['implied_growth'][year]:.1%}" for year in YEARS
+    )
+    print(f"Solved uniform revenue-growth shift: {result['growth_shift']:+.2%} each year")
+    print(f"Market-implied revenue-growth path: {growth_text}")
+    print(
+        f"At that path: FY2030E revenue ${result['fy2030_revenue']:,.1f}m; "
+        f"EBIT ${result['fy2030_ebit']:,.1f}m; FCFF ${result['fy2030_fcff']:,.1f}m; "
+        f"value/share ${result['value_per_share']:.2f}."
+    )
+    print(
+        "Interpretation: this is a one-variable hurdle under the model's base "
+        "margin and reinvestment assumptions, not a forecast or a probability."
+    )
+
+
 def print_dcf():
     _, _, fcff, valuation = run_integrated_dcf()
     assert_dcf_directionality(fcff)
@@ -179,8 +273,10 @@ def print_dcf():
     print("DCF directionality checks: PASS")
     print("Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS")
     print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
+    print(f"Market capitalization on February 5, 2026: ${MARKET_CAPITALIZATION_AS_OF_DATE:,.1f} million")
     print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
     print_scenario_valuations()
+    print_reverse_dcf()
 
 
 if __name__ == "__main__":
