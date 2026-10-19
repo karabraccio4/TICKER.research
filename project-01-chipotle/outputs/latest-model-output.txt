@@ -164,6 +164,7 @@ Value per diluted share: $21.10
 Terminal-value share of enterprise value: $78.9%
 DCF directionality checks: PASS
 Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS
+Enterprise-to-equity bridge check: PASS
 Market price on February 5, 2026: $38.45
 Market capitalization on February 5, 2026: $51,623.6 million
 Base value / market price: $0.55x

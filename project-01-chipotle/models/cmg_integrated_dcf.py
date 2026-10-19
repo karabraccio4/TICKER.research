@@ -105,6 +105,16 @@ def assert_dcf_directionality(fcff):
         raise AssertionError("Lower terminal growth did not reduce value per share.")
 
 
+def assert_enterprise_to_equity_bridge(valuation):
+    """Confirm the DCF enterprise-value bridge and per-share division reconcile."""
+    expected_equity_value = valuation["enterprise_value"] + NON_OPERATING_CASH - FUNDED_DEBT
+    if abs(valuation["equity_value"] - expected_equity_value) > 1e-6:
+        raise AssertionError("Enterprise-to-equity bridge does not reconcile.")
+    expected_per_share = valuation["equity_value"] / DILUTED_SHARES
+    if abs(valuation["value_per_share"] - expected_per_share) > 1e-6:
+        raise AssertionError("Equity-value-to-per-share bridge does not reconcile.")
+
+
 def assert_proforma_driver_linkage():
     """Confirm a lower pro-forma revenue path reduces FCFF and DCF value."""
     base_inputs = copy.deepcopy(BASE_INPUTS)
@@ -260,6 +270,7 @@ def print_dcf():
     _, _, fcff, valuation = run_integrated_dcf()
     assert_dcf_directionality(fcff)
     assert_proforma_driver_linkage()
+    assert_enterprise_to_equity_bridge(valuation)
     print("Integrated FCFF DCF (USD millions except per-share values)")
     print("FCFF is calculated from the Chipotle pro forma, not a separate growth path.")
     for year in YEARS:
@@ -272,6 +283,7 @@ def print_dcf():
     print(f"Terminal-value share of enterprise value: ${valuation['terminal_value_share']:.1%}")
     print("DCF directionality checks: PASS")
     print("Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS")
+    print("Enterprise-to-equity bridge check: PASS")
     print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
     print(f"Market capitalization on February 5, 2026: ${MARKET_CAPITALIZATION_AS_OF_DATE:,.1f} million")
     print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
