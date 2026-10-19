@@ -12,6 +12,7 @@ import copy
 from cmg_proforma import (
     BASE_INPUTS,
     CAPEX,
+    SENSITIVITY_CASES,
     TAX_RATE,
     TERMINAL_GROWTH,
     YEARS,
@@ -38,7 +39,6 @@ def fcff_from_projections(projections):
         fcff[year] = (
             nopat
             + statement["depreciation"]
-            + statement["impairment"]
             - CAPEX[year]
             - statement["change_nwc"]
         )
@@ -91,9 +91,25 @@ def assert_dcf_directionality(fcff):
         raise AssertionError("Lower terminal growth did not reduce value per share.")
 
 
+def assert_proforma_driver_linkage():
+    """Confirm a lower pro-forma revenue path reduces FCFF and DCF value."""
+    base_inputs = copy.deepcopy(BASE_INPUTS)
+    lower_inputs = copy.deepcopy(BASE_INPUTS)
+    lower_inputs["revenue_growth"] = copy.deepcopy(
+        SENSITIVITY_CASES["Revenue growth"]["lower"]
+    )
+    _, _, base_fcff, base_value = run_integrated_dcf(base_inputs)
+    _, _, lower_fcff, lower_value = run_integrated_dcf(lower_inputs)
+    if lower_fcff[2030] >= base_fcff[2030]:
+        raise AssertionError("Lower revenue growth did not reduce FY2030E FCFF.")
+    if lower_value["value_per_share"] >= base_value["value_per_share"]:
+        raise AssertionError("Lower revenue growth did not reduce DCF value per share.")
+
+
 def print_dcf():
     _, _, fcff, valuation = run_integrated_dcf()
     assert_dcf_directionality(fcff)
+    assert_proforma_driver_linkage()
     print("Integrated FCFF DCF (USD millions except per-share values)")
     print("FCFF is calculated from the Chipotle pro forma, not a separate growth path.")
     for year in YEARS:
@@ -105,6 +121,7 @@ def print_dcf():
     print(f"Value per diluted share: ${valuation['value_per_share']:,.2f}")
     print(f"Terminal-value share of enterprise value: ${valuation['terminal_value_share']:.1%}")
     print("DCF directionality checks: PASS")
+    print("Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS")
     print(f"Market price on February 5, 2026: ${MARKET_PRICE_AS_OF_DATE:,.2f}")
     print(f"Base value / market price: ${valuation['value_per_share'] / MARKET_PRICE_AS_OF_DATE:.2f}x")
 

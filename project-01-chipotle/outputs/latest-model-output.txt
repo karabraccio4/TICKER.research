@@ -41,11 +41,17 @@ Impairment                                30.0        32.1        34.2        36
 Capital spending                        -834.1      -850.0      -850.0      -850.0      -850.0
 Change in working capital                 42.3        35.7        35.5        34.9        33.9
 FCFE                                   1,318.9     1,452.8     1,606.3     1,755.0     1,897.6
+Cash from operations                   2,153.0     2,302.8     2,456.3     2,605.0     2,747.6
+Cash from investing                     -834.1      -850.0      -850.0      -850.0      -850.0
+Other modeled cash effects                29.6        18.5        16.1        13.2         9.8
+Net change in cash                     1,348.5     1,471.2     1,622.3     1,768.1     1,907.4
+Ending cash from cash flow             1,699.1     3,170.3     4,792.7     6,560.8     8,468.2
 
 Checks (USD millions)
                                           2026        2027        2028        2029        2030
 Assets - liabilities - equity              0.0         0.0         0.0         0.0         0.0
 Cash above minimum                     1,674.1     3,145.3     4,767.7     6,535.8     8,443.2
+Cash-flow ending cash - balance sheet         0.0         0.0         0.0         0.0         0.0
 
 Valuation (USD millions except per-share value)
 Equity value:                 25,598.46
@@ -123,11 +129,17 @@ Impairment                                30.0        32.1        34.2        36
 Capital spending                        -834.1      -850.0      -850.0      -850.0      -850.0
 Change in working capital                 42.3        35.7        35.5        34.9        33.9
 FCFE                                   1,318.9     1,452.8     1,606.3     1,755.0     1,897.6
+Cash from operations                   2,153.0     2,302.8     2,456.3     2,605.0     2,747.6
+Cash from investing                     -834.1      -850.0      -850.0      -850.0      -850.0
+Other modeled cash effects                29.6        18.5        16.1        13.2         9.8
+Net change in cash                     1,348.5     1,471.2     1,622.3     1,768.1     1,907.4
+Ending cash from cash flow             1,699.1     3,170.3     4,792.7     6,560.8     8,468.2
 
 Checks (USD millions)
                                           2026        2027        2028        2029        2030
 Assets - liabilities - equity              0.0         0.0         0.0         0.0         0.0
 Cash above minimum                     1,674.1     3,145.3     4,767.7     6,535.8     8,443.2
+Cash-flow ending cash - balance sheet         0.0         0.0         0.0         0.0         0.0
 
 Valuation (USD millions except per-share value)
 Equity value:                 25,598.46
@@ -139,20 +151,21 @@ cmg_integrated_dcf.py
 ========================================================================
 Integrated FCFF DCF (USD millions except per-share values)
 FCFF is calculated from the Chipotle pro forma, not a separate growth path.
-FY2026E FCFF: $1,257.5
-FY2027E FCFF: $1,387.1
-FY2028E FCFF: $1,536.3
-FY2029E FCFF: $1,680.8
-FY2030E FCFF: $1,819.4
-PV of explicit FCFF: $5,962.9
-PV of terminal value: $20,670.6
-Enterprise value: $26,633.5
-Equity value: $26,984.0
-Value per diluted share: $20.10
+FY2026E FCFF: $1,227.5
+FY2027E FCFF: $1,355.0
+FY2028E FCFF: $1,502.1
+FY2029E FCFF: $1,644.6
+FY2030E FCFF: $1,781.2
+PV of explicit FCFF: $5,829.7
+PV of terminal value: $20,236.6
+Enterprise value: $26,066.3
+Equity value: $26,416.8
+Value per diluted share: $19.68
 Terminal-value share of enterprise value: $77.6%
 DCF directionality checks: PASS
+Pro-forma revenue-driver-to-FCFF-to-DCF check: PASS
 Market price on February 5, 2026: $38.45
-Base value / market price: $0.52x
+Base value / market price: $0.51x
 
 ========================================================================
 pe_comparables.py

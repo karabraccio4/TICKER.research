@@ -159,6 +159,23 @@ def assert_balanced(year, s):
         raise AssertionError(f"FY{year}E: cash is below the minimum by {-cash_gap:.6f} million")
 
 
+def assert_base_year_reconciles():
+    """Confirm the FY2025 opening balances agree to the documented 10-K inputs."""
+    expected = {
+        "revenue": 11925.601,
+        "cash": 350.545,
+        "inventory": 49.508,
+        "ppe": 2679.361,
+        "equity": 2830.607,
+    }
+    for key, value in expected.items():
+        if opening[key] != value:
+            raise AssertionError(
+                f"FY2025 base-year reconciliation failed for {key}: "
+                f"{opening[key]:.3f} does not equal {value:.3f}."
+            )
+
+
 def print_table(title, rows, projections):
     print(f"\n{title} (USD millions)")
     print(f"{'':34}" + "".join(f"{year:>12}" for year in YEARS))
@@ -224,6 +241,25 @@ def run_model(inputs, print_output=True, break_cash_test=False):
 
         s = locals().copy()
         s["cash"] = cash
+        cash_from_operations = net_income + depreciation + impairment - change_nwc
+        cash_from_investing = -CAPEX[year]
+        cash_change = cash - prior["cash"]
+        other_modeled_cash_effects = cash_change - cash_from_operations - cash_from_investing
+        ending_cash_from_cash_flow = (
+            prior["cash"]
+            + cash_from_operations
+            + cash_from_investing
+            + other_modeled_cash_effects
+        )
+        s.update(
+            cash_from_operations=cash_from_operations,
+            cash_from_investing=cash_from_investing,
+            cash_change=cash_change,
+            other_modeled_cash_effects=other_modeled_cash_effects,
+            ending_cash_from_cash_flow=ending_cash_from_cash_flow,
+        )
+        if abs(ending_cash_from_cash_flow - cash) > 1e-6:
+            raise AssertionError(f"FY{year}E: cash flow does not tie to balance-sheet cash.")
         assert_balanced(year, s)
         projections[year] = s
         prior = s
@@ -261,11 +297,20 @@ def run_model(inputs, print_output=True, break_cash_test=False):
         ("Net income", "net_income"), ("Depreciation & amortization", "depreciation"),
         ("Impairment", "impairment"), ("Capital spending", "capex"),
         ("Change in working capital", "change_nwc"), ("FCFE", "fcfe"),
+        ("Cash from operations", "cash_from_operations"),
+        ("Cash from investing", "cash_from_investing"),
+        ("Other modeled cash effects", "other_modeled_cash_effects"),
+        ("Net change in cash", "cash_change"),
+        ("Ending cash from cash flow", "ending_cash_from_cash_flow"),
     ], {y: {**s, "capex": -CAPEX[y], "change_nwc": -s["change_nwc"]} for y, s in projections.items()})
     print("\nChecks (USD millions)")
     print(f"{'':34}" + "".join(f"{year:>12}" for year in YEARS))
     print(f"{'Assets - liabilities - equity':34}" + "".join(f"{total_assets(projections[y]) - total_liabilities_and_equity(projections[y]):>12,.1f}" for y in YEARS))
     print(f"{'Cash above minimum':34}" + "".join(f"{projections[y]['cash'] - MINIMUM_CASH:>12,.1f}" for y in YEARS))
+    print(f"{'Cash-flow ending cash - balance sheet':34}" + "".join(
+        f"{projections[y]['ending_cash_from_cash_flow'] - projections[y]['cash']:>12,.1f}"
+        for y in YEARS
+    ))
 
     print("\nValuation (USD millions except per-share value)")
     print(f"Equity value:                 {equity_value:,.2f}")
@@ -306,6 +351,7 @@ def print_sensitivity(base_inputs, base_results):
 
 
 def main():
+    assert_base_year_reconciles()
     base_inputs = copy.deepcopy(BASE_INPUTS)
     _, base_results = run_model(base_inputs, print_output=True, break_cash_test=BREAK_CASH_TEST)
     print_sensitivity(base_inputs, base_results)
