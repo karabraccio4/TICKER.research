@@ -80,15 +80,15 @@ Candidate D passes every checkable rule: weights total 100.0%, its lowest weight
 
 **Judgment:** Yes, the objection to Candidate D is reasonable because, although it passes the coded rules, its conservative allocation may not generate sufficient returns to meet the foundation's CPI + 4% objective. S2 is the main concern because it establishes the return objective, while S10 highlights that the CIO has not specified what the portfolio should optimize.
 
-### Skeptical-colleague exchange (complete in your own words)
+### Owen's skeptical-colleague exchange
 
 **My challenge to Candidate D:**
 
 > My concern with Candidate D is that it may not generate enough return to meet the foundation's CPI + 4% objective under S2. Even though it meets the coded requirements, this does not necessarily make it a suitable portfolio for the foundation.
 
-**Skeptical colleague’s challenge to my reasoning:**
+**Owen's challenge to my reasoning:**
 
-> **Skeptical colleague:** S2 only states that the foundation wants to earn CPI + 4%. It does not specifically require investing in equities, so we cannot automatically say Candidate D is unsuitable just because it has a conservative allocation.
+> **Owen:** S2 only states that the foundation wants to earn CPI + 4%. It does not specifically require investing in equities, so we cannot automatically say Candidate D is unsuitable just because it has a conservative allocation.
 >
 > **My response:** I agree that S2 does not require a specific amount of equity exposure. However, I would still question whether Candidate D's conservative investments could realistically achieve the CPI + 4% return objective. Even though it passes all the coded rules, we need to evaluate its expected returns before deciding if it is suitable for the foundation.
 
