@@ -59,7 +59,7 @@ Required refusal test:
 
 Portfolio volatility measures how much a portfolio's returns fluctuate over time. It is commonly used as a measure of investment risk because it shows how much portfolio returns move up and down. The `portfolio_volatility` function loops through every pair of holdings, multiplies each pair's weights by its covariance, adds those terms into variance, and then takes the square root.
 
-**Owen's question:** If minimizing portfolio volatility reduces risk, why would we not invest everything in cash or government bonds?  
+**Owen's question:** If minimizing portfolio volatility reduces risk, why would we not invest everything in cash or government bonds?
 **My answer:** While cash and government bonds may reduce volatility, they may not generate enough return to meet the foundation's CPI + 4% objective under S2. We need to balance minimizing risk with earning sufficient returns to meet the foundation's long-term goals.
 
 ## Diversification
