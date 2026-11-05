@@ -1,8 +1,8 @@
-"""Download 10-K facts from SEC EDGAR and compute Buffett-style checks.
+"""Download 10-K facts from SEC EDGAR and compute a legend-investor panel.
 
 Run:
     $env:SEC_EDGAR_EMAIL = "your.email@example.edu"
-    python buffett_10k_skill/edgar_buffett.py COST --memo buffett_memo_COST.md
+    python buffett_10k_skill/edgar_buffett.py COST --panel-memos .
 
 The SEC asks automated users to identify themselves.  This program never
 estimates: a missing fact stays ``not found`` and a check without every input
@@ -41,14 +41,21 @@ TAG_OPTIONS = {
         "PaymentsToAcquireProductiveAssets",
     ],
     "equity": ["StockholdersEquity"],
+    "liabilities": ["Liabilities"],
+    "assets_current": ["AssetsCurrent"],
+    "liabilities_current": ["LiabilitiesCurrent"],
 }
 FLOW_FIELDS = {"revenue", "net_income", "operating_cash_flow", "capital_spending"}
+GRAHAM_CURRENT_RATIO_THRESHOLD = 2.0
 DISPLAY_NAMES = {
     "revenue": "Revenue",
     "net_income": "Net income",
     "operating_cash_flow": "Operating cash flow",
     "capital_spending": "Capital spending",
     "equity": "Equity",
+    "liabilities": "Liabilities",
+    "assets_current": "Current assets",
+    "liabilities_current": "Current liabilities",
 }
 
 
@@ -145,6 +152,11 @@ def display_percent(value: float | None) -> str:
     return "not known" if value is None else f"{value * 100:.1f}%"
 
 
+def display_ratio(value: float | None) -> str:
+    """Format ratios as ratios, never as percentages."""
+    return "not known" if value is None else f"{value:.2f}"
+
+
 def value_in_millions(item: dict[str, Any] | None) -> float | None:
     return None if item is None else float(item["val"]) / 1_000_000
 
@@ -169,25 +181,84 @@ def build_rows(facts: dict[str, Any]) -> list[dict[str, Any]]:
         row["roe"] = None if equity is None or equity <= 0 or net_income is None else net_income / equity
         ocf, capex = row["operating_cash_flow"], row["capital_spending"]
         row["owner_earnings"] = None if ocf is None or capex is None else ocf - capex
+        current_assets, current_liabilities = row["assets_current"], row["liabilities_current"]
+        row["current_ratio"] = (
+            None
+            if current_assets is None or current_liabilities is None or current_liabilities <= 0
+            else current_assets / current_liabilities
+        )
+        liabilities = row["liabilities"]
+        row["liabilities_to_equity"] = (
+            None if liabilities is None or equity is None or equity <= 0 else liabilities / equity
+        )
         rows.append(row)
     return rows
 
 
-def make_checks(rows: list[dict[str, Any]]) -> dict[str, str]:
+def growth_check(values: list[float | None]) -> str:
+    """Return a first-to-last growth result without assuming intermediate values."""
+    if len(values) != 5 or values[0] is None or values[-1] is None:
+        return "not known"
+    return "pass" if values[-1] > values[0] else "fail"
+
+
+def make_buffett_checks(rows: list[dict[str, Any]]) -> dict[str, str]:
     """Compute all three Buffett checks strictly from the five output rows."""
     roe = [row["roe"] for row in rows]
     owner_earnings = [row["owner_earnings"] for row in rows]
-    growth = "not known"
-    if len(owner_earnings) == 5 and owner_earnings[0] is not None and owner_earnings[-1] is not None:
-        growth = "pass" if owner_earnings[-1] > owner_earnings[0] else "fail"
     return {
         "ROE of 15% or more every year": check_every(roe, lambda value: value >= 0.15),
         "Owner earnings positive every year": check_every(owner_earnings, lambda value: value > 0),
-        "Owner earnings grew, first year to last": growth,
+        "Owner earnings grew, first year to last": growth_check(owner_earnings),
     }
 
 
-def analysis_for_ticker(ticker: str, email: str) -> dict[str, Any]:
+def make_graham_checks(
+    rows: list[dict[str, Any]], current_ratio_threshold: float = GRAHAM_CURRENT_RATIO_THRESHOLD
+) -> dict[str, str]:
+    """Compute Lab 19's stated Graham screens from the shared five-year rows."""
+    current_ratio = rows[-1]["current_ratio"] if rows else None
+    net_income = [row["net_income"] for row in rows]
+    latest_ratio = "not known" if current_ratio is None else ("pass" if current_ratio >= current_ratio_threshold else "fail")
+    return {
+        f"Current ratio of {current_ratio_threshold:g} or more, latest year": latest_ratio,
+        "Net income positive every year": check_every(net_income, lambda value: value > 0),
+        "Net income grew, first year to last": growth_check(net_income),
+    }
+
+
+def make_burry_checks(rows: list[dict[str, Any]]) -> dict[str, str]:
+    """Compute Lab 19's stated Burry screens from the shared five-year rows."""
+    cash_covers_income: list[float | None] = []
+    for row in rows:
+        ocf, income = row["operating_cash_flow"], row["net_income"]
+        cash_covers_income.append(None if ocf is None or income is None else ocf - income)
+    leverage = rows[-1]["liabilities_to_equity"] if rows else None
+    leverage_result = "not known" if leverage is None else ("pass" if leverage <= 2 else "fail")
+    return {
+        "Operating cash flow at least net income every year": check_every(cash_covers_income, lambda difference: difference >= 0),
+        "Liabilities no more than twice equity, latest year": leverage_result,
+    }
+
+
+def make_checks(rows: list[dict[str, Any]]) -> dict[str, str]:
+    """Compatibility alias for Lab 18 callers that only need Buffett's checks."""
+    return make_buffett_checks(rows)
+
+
+def make_panel_checks(
+    rows: list[dict[str, Any]], current_ratio_threshold: float = GRAHAM_CURRENT_RATIO_THRESHOLD
+) -> dict[str, dict[str, str]]:
+    return {
+        "Buffett": make_buffett_checks(rows),
+        "Graham": make_graham_checks(rows, current_ratio_threshold),
+        "Burry": make_burry_checks(rows),
+    }
+
+
+def analysis_for_ticker(
+    ticker: str, email: str, current_ratio_threshold: float = GRAHAM_CURRENT_RATIO_THRESHOLD
+) -> dict[str, Any]:
     cik = ticker_to_cik(ticker, email)
     facts = sec_get(FACTS_URL.format(cik=cik), email)
     rows = build_rows(facts)
@@ -197,9 +268,10 @@ def analysis_for_ticker(ticker: str, email: str) -> dict[str, Any]:
         "ticker": ticker.upper(),
         "company": facts.get("entityName", ticker.upper()),
         "cik": f"{cik:010d}",
-        "units": "USD millions (except ROE)",
+        "units": "USD millions (except ratios)",
         "rows": rows,
-        "checks": make_checks(rows),
+        "checks": make_buffett_checks(rows),
+        "panel_checks": make_panel_checks(rows, current_ratio_threshold),
     }
 
 
@@ -207,7 +279,7 @@ def print_report(analysis: dict[str, Any]) -> None:
     """Print every permitted memo number and its source XBRL tag."""
     print(f"{analysis['company']} ({analysis['ticker']}) | CIK {analysis['cik']}")
     print("All dollars are USD millions. Source: SEC EDGAR companyfacts, annual 10-K only.")
-    print("\nFiscal year end | Revenue [tag] | Net income [tag] | Operating cash flow [tag] | Capital spending [tag] | Equity [tag] | ROE | Owner earnings")
+    print("\nFiscal year end | Revenue [tag] | Net income [tag] | Operating cash flow [tag] | Capital spending [tag] | Equity [tag] | Liabilities [tag] | Current assets [tag] | Current liabilities [tag] | ROE | Current ratio | Liabilities/equity | Owner earnings")
     for row in analysis["rows"]:
         tags = row["tags"]
         print(
@@ -215,29 +287,46 @@ def print_report(analysis: dict[str, Any]) -> None:
             f"{display(row['net_income'])} [{tags['net_income']}] | "
             f"{display(row['operating_cash_flow'])} [{tags['operating_cash_flow']}] | "
             f"{display(row['capital_spending'])} [{tags['capital_spending']}] | "
-            f"{display(row['equity'])} [{tags['equity']}] | {display_percent(row['roe'])} | "
+            f"{display(row['equity'])} [{tags['equity']}] | "
+            f"{display(row['liabilities'])} [{tags['liabilities']}] | "
+            f"{display(row['assets_current'])} [{tags['assets_current']}] | "
+            f"{display(row['liabilities_current'])} [{tags['liabilities_current']}] | "
+            f"{display_percent(row['roe'])} | {display_ratio(row['current_ratio'])} | "
+            f"{display_ratio(row['liabilities_to_equity'])} | "
             f"{display(row['owner_earnings'])}"
         )
-    print("\nBuffett checks")
-    for check, outcome in analysis["checks"].items():
-        print(f"- {check}: {outcome}")
+    print("\nPanel checks")
+    for investor, checks in analysis["panel_checks"].items():
+        for check, outcome in checks.items():
+            print(f"- {investor} | {check}: {outcome}")
 
 
-def memo_template(analysis: dict[str, Any]) -> str:
-    """Return a constrained memo shell for the model to complete from this output only."""
-    checks = analysis["checks"]
-    decision = "own the business" if all(result == "pass" for result in checks.values()) else "watch it"
-    if "not known" in checks.values():
-        decision = "watch it"
-    return f"""# Buffett-style memo: {analysis['ticker']}
+def panel_verdict(checks: dict[str, str]) -> str:
+    """Turn deterministic checks into a conservative memo starting verdict."""
+    if any(result == "not known" for result in checks.values()):
+        return "watch it"
+    return "own the business" if all(result == "pass" for result in checks.values()) else "watch it"
 
-## Verdict: {decision}
 
-I judge the business, not its price. This memo uses only the SEC EDGAR 10-K facts printed by `edgar_buffett.py`, in USD millions.
+def memo_template(analysis: dict[str, Any], investor: str = "Buffett") -> str:
+    """Return an investor-specific memo shell restricted to printed script values."""
+    checks = analysis["panel_checks"][investor]
+    verdict = panel_verdict(checks)
+    lenses = {
+        "Buffett": "I judge the business, not its price.",
+        "Graham": "I emphasize conservative financial condition and earnings stability, not price in this lab.",
+        "Burry": "I test whether earnings are supported by cash and whether leverage is contained.",
+    }
+    checks_text = "; ".join(f"{check} — {outcome}" for check, outcome in checks.items())
+    return f"""# {investor}-style memo: {analysis['ticker']}
 
-The three code checks are: ROE of 15% or more every year — {checks['ROE of 15% or more every year']}; owner earnings positive every year — {checks['Owner earnings positive every year']}; and owner earnings grew from the first year to the last — {checks['Owner earnings grew, first year to last']}.
+## Verdict: {verdict}
 
-Write the final Buffett-style reasoning here using only numbers shown in the script output. If a check is not known because an input is not found, say that the business cannot be judged on that check. Do not discuss stock price or add a number not printed by the script.
+{lenses[investor]} This memo uses only the SEC EDGAR annual-filing facts printed by `edgar_buffett.py`, in USD millions.
+
+The code checks are: {checks_text}.
+
+Write the final {investor}-style reasoning here using only numbers shown in the script output. If a check is not known because an input is not found, say that the business cannot be judged on that check. Do not discuss stock price or add a number not printed by the script.
 
 ## My decision
 
@@ -249,19 +338,30 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("ticker", help="US ticker, e.g. COST")
     parser.add_argument("--json", action="store_true", help="print the analysis as JSON")
-    parser.add_argument("--memo", type=Path, help="write a constrained memo shell to this Markdown file")
+    parser.add_argument("--memo", type=Path, help="write a Buffett memo shell to this Markdown file")
+    parser.add_argument("--panel-memos", type=Path, help="write Buffett, Graham, and Burry memo shells into this directory")
     parser.add_argument("--email", help="EDGAR contact email; defaults to SEC_EDGAR_EMAIL")
+    parser.add_argument(
+        "--graham-current-ratio-threshold", type=float, default=GRAHAM_CURRENT_RATIO_THRESHOLD,
+        help="Graham current-ratio threshold; default 2.0, use 1.0 only for the Lab 19 sensitivity probe",
+    )
     args = parser.parse_args()
     email = args.email or os.environ.get("SEC_EDGAR_EMAIL")
     if not email or "@" not in email:
         raise SystemExit(REQUIRED_EMAIL_MESSAGE)
     try:
-        analysis = analysis_for_ticker(args.ticker, email)
+        analysis = analysis_for_ticker(args.ticker, email, args.graham_current_ratio_threshold)
     except (RuntimeError, ValueError) as error:
         raise SystemExit(f"Error: {error}") from error
     if args.memo:
         args.memo.write_text(memo_template(analysis), encoding="utf-8")
         print(f"Wrote memo shell: {args.memo}")
+    if args.panel_memos:
+        args.panel_memos.mkdir(parents=True, exist_ok=True)
+        for investor in ("Buffett", "Graham", "Burry"):
+            path = args.panel_memos / f"{investor.lower()}_memo_{analysis['ticker']}.md"
+            path.write_text(memo_template(analysis, investor), encoding="utf-8")
+            print(f"Wrote memo shell: {path}")
     print(json.dumps(analysis, indent=2) if args.json else "")
     if not args.json:
         print_report(analysis)
