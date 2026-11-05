@@ -85,7 +85,7 @@ I selected NVIDIA because it was the largest disclosed company holding of the Va
 | Graham | All three checks pass; latest current ratio is 3.91. | Own the business |
 | Burry | Leverage passes at 0.31 liabilities/equity; cash flow does not meet or exceed net income every year. | Watch it |
 
-The three completed NVIDIA memos are `buffett_memo_NVDA.md`, `graham_memo_NVDA.md`, and `burry_memo_NVDA.md`.
+The app uses the three individual NVIDIA memos—`buffett_memo_NVDA.md`, `graham_memo_NVDA.md`, and `burry_memo_NVDA.md`—to preload its side-by-side columns. `nvda_legend_panel_memos.md` consolidates the same three memos into one submission-friendly file.
 
 ## Explain the Graham code to my partner
 
