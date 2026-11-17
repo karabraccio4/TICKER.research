@@ -9,6 +9,7 @@ from __future__ import annotations
 import math
 import sys
 import csv
+import io
 from pathlib import Path
 from typing import TextIO
 
@@ -184,8 +185,16 @@ def estimates_from_prices(
         handle = open(source, newline="")
         should_close = True
     else:
-        handle = source
-        handle.seek(0)
+        # Streamlit's UploadedFile is a BytesIO object. csv.DictReader
+        # requires text rows, so decode uploaded CSV bytes before reading.
+        source.seek(0)
+        sample = source.read(0)
+        source.seek(0)
+        if isinstance(sample, bytes):
+            handle = io.StringIO(source.read().decode("utf-8-sig"))
+            should_close = True
+        else:
+            handle = source
 
     try:
         reader = csv.DictReader(handle)

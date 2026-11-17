@@ -1,0 +1,22 @@
+Project 2: Portfolio stability decision
+Mandate: expected return >= 5.5%; BIL + IEF >= 20.0%; long-only 5-point grid.
+
+Baseline - all 59 monthly returns
+  Mix: BIL 75% / IEF 0% / LQD 0% / VT 25%
+  Expected return: 5.51%
+  Volatility: 3.84%
+  Reserve eligible: 75.0%
+
+Window check - last 36 monthly returns
+  Mix: BIL 90% / IEF 0% / LQD 0% / VT 10%
+  Expected return: 5.95%
+  Volatility: 1.21%
+  Reserve eligible: 90.0%
+
+Stress - VT expected return decreased by 1.0 percentage point
+  Mix: BIL 70% / IEF 0% / LQD 0% / VT 30%
+  Expected return: 5.58%
+  Volatility: 4.58%
+  Reserve eligible: 70.0%
+
+Decision: PILOT, not adopt. Reconsider after approving a forward-looking return-estimate method and history window.
