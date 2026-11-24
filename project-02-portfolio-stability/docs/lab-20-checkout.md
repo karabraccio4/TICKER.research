@@ -27,8 +27,9 @@
 | README command | [README.md](../README.md) | Ready. |
 | Visible output | [project2-result.txt](../output/project2-result.txt) | Ready. |
 | Decision memo | [decision-memo.md](decision-memo.md) | Ready. |
+| Validation and AI use | [validation-and-ai-use.md](validation-and-ai-use.md) | Validation, AI disclosure, and completed Locked Changed-Input Record. |
 | Cold run | [cold-run-note.md](cold-run-note.md) | AI-assisted dry run documented; not a human-partner result. |
-| Changed-input record | [locked-changed-input-record.md](locked-changed-input-record.md) | Prepared; student must lock their own prediction before rerunning. |
+| Changed-input record | [locked-changed-input-record.md](locked-changed-input-record.md) | Completed: prediction commit and separate results commit are linked. |
 | Videos 1–3 | [video-manifest.md](video-manifest.md) | Links pending recording/upload. |
 
 ## Exact supporting-file titles

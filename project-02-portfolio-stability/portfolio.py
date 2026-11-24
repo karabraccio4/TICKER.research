@@ -187,14 +187,23 @@ def estimates_from_prices(
     else:
         # Streamlit's UploadedFile is a BytesIO object. csv.DictReader
         # requires text rows, so decode uploaded CSV bytes before reading.
-        source.seek(0)
-        sample = source.read(0)
-        source.seek(0)
-        if isinstance(sample, bytes):
-            handle = io.StringIO(source.read().decode("utf-8-sig"))
+        if hasattr(source, "getvalue"):
+            uploaded_value = source.getvalue()
+            if isinstance(uploaded_value, bytes):
+                handle = io.StringIO(uploaded_value.decode("utf-8-sig"))
+                should_close = True
+            else:
+                handle = io.StringIO(uploaded_value)
+                should_close = True
+        else:
+            source.seek(0)
+            handle = source
+        if isinstance(handle.read(0), bytes):
+            handle.seek(0)
+            handle = io.StringIO(handle.read().decode("utf-8-sig"))
             should_close = True
         else:
-            handle = source
+            handle.seek(0)
 
     try:
         reader = csv.DictReader(handle)

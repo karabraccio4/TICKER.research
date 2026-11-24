@@ -29,4 +29,4 @@ The rate monitor uses the latest **knowable** Federal Funds Effective Rate (`FED
 
 The model supplies a feasible, low-volatility starting point, but not enough evidence for adoption. The history-window test changes the BIL/VT allocation by 15 points, and the VT estimate stress case changes the allocation by 5 points while increasing volatility. Before adoption, the client must approve the forward-looking return-estimate method and the appropriate history window. The committee should also review implementation costs, tax considerations, liquidity assumptions, and whether the model's 5-point allocation grid is sufficiently precise.
 
-Reproduction: run `python project2_report.py` from the repository root. See [validation.md](validation.md) for the baseline, mandate, window, and stress checks.
+Reproduction: run `python project2_report.py` from the repository root. See [validation-and-ai-use.md](validation-and-ai-use.md) for the source boundary, validation record, AI-use disclosure, and Locked Changed-Input Record status.
