@@ -130,6 +130,30 @@ except (ValueError, KeyError) as error:
     st.stop()
 
 st.info(f"Loaded inputs: {data_label}. Returns are historical estimates, not forecasts.")
+
+if uploaded_prices is not None:
+    with st.container(border=True):
+        st.subheader("Point-in-time rate signal: reserve-yield monitor")
+        st.caption("Decision date: September 30, 2026. This monitor does not automatically change the allocation.")
+        rate, observation, excluded = st.columns(3)
+        rate.metric("Latest knowable FEDFUNDS", "3.63%")
+        observation.metric("Observation used", "August 2026")
+        excluded.metric("Excluded future reading", "September: 3.75%")
+        st.write(
+            "At the September 30 decision date, August's 3.63% monthly federal-funds average was the latest "
+            "published observation. September's 3.75% reading was published October 1, so it is excluded to "
+            "avoid look-ahead bias."
+        )
+        st.caption(
+            "Role: monitor the cash-and-rate environment and require an ALFRED vintage for each future decision; "
+            "it is not a return forecast or an automatic allocation override."
+        )
+        st.markdown(
+            "Source: [FRED FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS) and "
+            "[ALFRED vintage data](https://alfred.stlouisfed.org/series?seid=FEDFUNDS). "
+            "See `docs/point-in-time-signal.md` for the data card."
+        )
+
 st.subheader("Editable expected-return estimates")
 for name in current_sleeves:
     current_sleeves[name]["expected_return"] = st.number_input(

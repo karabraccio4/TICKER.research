@@ -40,6 +40,7 @@ The interactive app also compares the constrained portfolio with two transparent
 | `prices.csv` | 60 completed monthly adjusted-close observations, October 2021–September 2026 |
 | `docs/decision-memo.md` | Committee decision, conditions, and limitations |
 | `docs/validation.md` | Baseline, mandate, window, and stress evidence |
+| `docs/point-in-time-signal.md` | FEDFUNDS point-in-time signal, data card, and as-of rule |
 | `docs/locked-changed-input-record.md` | Lab 20 record to complete before rerunning the stress case |
 | `docs/cold-run-note.md` | Partner-only cold-run note template |
 | `docs/video-manifest.md` | Three required video prompts and links to add after recording |

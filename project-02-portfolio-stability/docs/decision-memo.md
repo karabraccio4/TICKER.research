@@ -21,6 +21,10 @@ Using only the last 36 monthly returns changes the mix to **90% BIL, 0% IEF, 0% 
 
 For the return-estimate stress case, VT's annual expected return falls by **1.0 percentage point**. The result becomes **70% BIL, 0% IEF, 0% LQD, and 30% VT**; expected return is **5.58%**, volatility is **4.58%**, and reserve-eligible weight is **70.0%**. The numeric mandate remains feasible, but the allocation and risk move materially.
 
+## Point-in-time reserve-yield monitor
+
+The rate monitor uses the latest **knowable** Federal Funds Effective Rate (`FEDFUNDS`) rather than today's revised history. On the September 30, 2026 decision date, the latest available monthly observation was **August 2026 at 3.63%**. September's 3.75% value was published October 1 and was excluded. The signal monitors the cash-and-rate environment relevant to BIL; it is not a forecast, optimizer input, or automatic allocation override. Future decisions require the applicable ALFRED vintage. See [point-in-time-signal.md](point-in-time-signal.md).
+
 ## Committee rationale and limits
 
 The model supplies a feasible, low-volatility starting point, but not enough evidence for adoption. The history-window test changes the BIL/VT allocation by 15 points, and the VT estimate stress case changes the allocation by 5 points while increasing volatility. Before adoption, the client must approve the forward-looking return-estimate method and the appropriate history window. The committee should also review implementation costs, tax considerations, liquidity assumptions, and whether the model's 5-point allocation grid is sufficiently precise.
