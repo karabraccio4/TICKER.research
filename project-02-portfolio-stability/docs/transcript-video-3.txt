@@ -1,0 +1,39 @@
+VIDEO 3 — INVESTMENT-COMMITTEE PRESENTATION
+Status: DRAFT RECORDING SCRIPT. It is not a transcript yet. After recording, replace this file with the corrected transcript of the words actually spoken in the submitted video.
+
+Target duration: about 4 minutes 30 seconds to 5 minutes.
+
+PRODUCTION NOTE: The bracketed ON-SCREEN cues are for recording only. Remove them when you replace this draft with the final transcript.
+
+[ON SCREEN, 0:00] Start with the live Streamlit app running: http://localhost:8501
+[ON SCREEN, 0:25] Decision memo: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/decision-memo.md
+[ON SCREEN, 1:10] App's baseline comparison table.
+[ON SCREEN, 2:00] Point-in-time rate monitor in the app and data card: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/point-in-time-signal.md
+[ON SCREEN, 2:40] Changed-input record: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/locked-changed-input-record.md
+[ON SCREEN, 3:35] Validation and AI-use record: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/validation-and-ai-use.md
+
+I used OpenAI Codex as a coding and documentation assistant. I checked the model outputs and evidence; the analysis and decision are mine. This is an educational demonstration, not investment advice.
+
+Committee, my recommendation is to pilot, not adopt, this portfolio process. Subject to the stated historical inputs, I ask for approval of a limited 70 to 75% BIL and 25 to 30% VT pilot range. I do not recommend a permanent strategic allocation until the client approves a forward-looking return-estimate method and the history window.
+
+The client is a community arts nonprofit reserve fund with a five-year horizon. The mandate requires an expected annual return of at least 5.5% and at least 20% in reserve-eligible BIL and IEF. In the full-history baseline, the constrained lowest-risk mix is 75% BIL and 25% VT. It has a 5.51% expected return, 3.84% volatility, and 75% reserve eligible. It meets both numeric mandate rules.
+
+[ON SCREEN: point to the three baseline metrics in the live app.]
+
+I evaluated this answer against two transparent baselines. The equal-weight portfolio and inverse-volatility portfolio both pass the reserve rule, but each fails the 5.5% expected-return objective. The constrained mix is therefore not simply the lowest-volatility answer; it is the lowest-volatility answer among portfolios that meet both client constraints.
+
+[ON SCREEN: show the “Mandate comparison” table and point out the two baseline FAIL verdicts and constrained PASS verdict.]
+
+I also used a point-in-time rate monitor for the reserve sleeve. At the September 30, 2026 decision date, the latest knowable Federal Funds Effective Rate observation was August at 3.63%. I excluded September's 3.75% reading because it was published October 1. The rate monitor is context for the cash-and-rate environment; it is not a forecast or an automatic allocation override.
+
+[ON SCREEN: show the rate monitor and then the data card.]
+
+The main reason for a pilot rather than adoption is sensitivity. When I used only the last 36 monthly returns, BIL rose from 75% to 90% and VT fell from 25% to 10%, a 15-point allocation move. In a separate locked changed-input run, reducing VT's expected return from 11.05% to 10.05% moved the allocation to 70% BIL and 30% VT. Volatility increased to 4.58%, reserve eligibility decreased to 70%, and the mandate remained feasible.
+
+[ON SCREEN: show the changed-input record and before/after output.]
+
+I would monitor the approved return-estimate method, history window, reserve requirement, liquidity terms, implementation costs, tax assumptions, and the applicable ALFRED vintage. I would pause or reverse the pilot if the portfolio cannot meet the 5.5% return and 20% reserve rules, if an approved input update moves the allocation more than five percentage points, if the ALFRED vintage cannot be reproduced, or if the client does not approve the assumptions that define the pilot range.
+
+My committee ask is limited approval for the 70 to 75% BIL and 25 to 30% VT pilot range, plus direction to select the forward-looking return-estimate method and history window before considering permanent adoption.
+
+After recording: replace this draft with the actual corrected transcript, add the final YouTube URL and duration to `docs/video-manifest.md` and `docs/submission-manifest.md`, and verify that captions correctly show BIL, IEF, LQD, VT, FEDFUNDS, 5.5%, and 20%.

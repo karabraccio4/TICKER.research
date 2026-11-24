@@ -10,6 +10,8 @@ The videos are not present in this repository yet. Add each working share link b
 | 2 — Technical walkthrough | How does `find_lowest_risk_mix` produce the decision number, including feasibility tests and volatility comparison? | **[add link]** |
 | 3 — Committee decision | What should the committee do, what evidence supports it, and what condition would reverse it? | **[add link]** |
 
+Transcript templates: [Video 1](transcript-video-1.txt), [Video 2](transcript-video-2.txt), and [Video 3](transcript-video-3.txt). Replace each outline with the corrected transcript after recording.
+
 ## Speaking notes
 
 **Video 1:** The all-history baseline is 75% BIL and 25% VT, with 5.51% expected return, 3.84% volatility, and 75% reserve eligible. Last-36-month input changes it to 90% BIL and 10% VT, a 15-point movement. Reducing VT's expected annual return by one point produces 70% BIL and 30% VT, raises volatility to 4.58%, and leaves the mandate feasible.

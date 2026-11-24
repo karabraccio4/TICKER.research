@@ -1,0 +1,37 @@
+VIDEO 1 — HOW THE SYSTEM AND THINKING CHANGED
+Status: DRAFT RECORDING SCRIPT. It is not a transcript yet. After recording, replace this file with the corrected transcript of the words actually spoken in the submitted video.
+
+Target duration: about 2 minutes 30 seconds to 3 minutes.
+
+PRODUCTION NOTE: The bracketed ON-SCREEN cues are for recording only. Remove them when you replace this draft with the final transcript.
+
+[ON SCREEN, 0:00] Live app: http://localhost:8501
+[ON SCREEN, 0:20] Decision memo: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/decision-memo.md
+[ON SCREEN, 0:50] Baseline comparison in the live app.
+[ON SCREEN, 1:25] Point-in-time data card: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/point-in-time-signal.md
+[ON SCREEN, 1:55] Changed-input record: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/locked-changed-input-record.md
+[ON SCREEN, 2:25] Validation and AI-use record: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/validation-and-ai-use.md
+
+I used OpenAI Codex to help with coding and writing documentation. I checked the results myself. This is my analysis and my decision. This is for school, not investment advice.
+
+My project asks whether a community arts nonprofit should use this portfolio strategy for money it needs to keep in reserve over the next five years. The portfolio needs to aim for at least a 5.5% yearly return and keep at least 20% in safe, reserve-eligible funds like BIL and IEF.
+
+My recommendation is to pilot, not adopt. That means I would test the strategy with a limited allocation first instead of making it the nonprofit's permanent plan. Based on these historical inputs, I would test a range of 70 to 75% BIL and 25 to 30% VT.
+
+The system changed in three main ways. First, it now compares my recommended portfolio to two simple alternatives: an equal-weight portfolio and an inverse-volatility portfolio. Both simple alternatives fail the 5.5% return rule. My constrained portfolio passes both the return rule and the reserve rule. This helps show why my recommendation is different from the simpler options.
+
+[ON SCREEN: show the app's “Mandate comparison” table while saying the preceding paragraph.]
+
+Second, I added a point-in-time reserve-yield monitor. It uses the latest knowable Federal Funds Effective Rate instead of today's revised history. On September 30, 2026, the latest known monthly reading was August at 3.63%. September's 3.75% reading was published October 1, so I excluded it. This signal monitors the cash-and-rate environment; it does not automatically change the allocation or act as a return forecast.
+
+[ON SCREEN: show the point-in-time rate card in the app, then the point-in-time data card.]
+
+Third, I tested the return-estimate sensitivity. With the full history, the constrained mix was 75% BIL and 25% VT, with 5.51% expected return, 3.84% volatility, and 75% reserve eligible. When VT's expected return was reduced by one percentage point, the model changed to 70% BIL and 30% VT. Volatility rose to 4.58%, reserve eligibility fell to 70%, and the mandate still passed. The allocation sensitivity is why I recommend a pilot rather than adoption.
+
+One AI-assisted implementation output I checked was the uploaded-CSV handling. I tested the same `prices.csv` as an uploaded byte stream and confirmed that the app correctly reads BIL, IEF, LQD, and VT. I also checked that the reproduced report matches the saved visible output. The result is not that the model is proven correct; it is that the calculation is reproducible and the limits are visible.
+
+[ON SCREEN: show `portfolio.py` around `estimates_from_prices`, then upload `prices.csv` in the app and show the four ticker inputs.]
+
+The main limitation is that historical return estimates and the history window can move the allocation. I would pause or reverse the pilot if the mandate fails, an approved input update moves the allocation by more than five percentage points, the point-in-time rate vintage cannot be reproduced, or the client does not approve the estimation method and history window.
+
+After recording: replace this draft with the actual corrected transcript, add the final YouTube URL and duration to `docs/video-manifest.md` and `docs/submission-manifest.md`, and verify that captions correctly show BIL, VT, FEDFUNDS, 5.5%, and 20%.

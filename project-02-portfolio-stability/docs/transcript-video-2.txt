@@ -1,0 +1,40 @@
+VIDEO 2 — TECHNICAL WALKTHROUGH
+Status: DRAFT RECORDING SCRIPT. It is not a transcript yet. After recording, replace this file with the corrected transcript of the words actually spoken in the submitted video.
+
+Target duration: about 4 minutes 30 seconds to 5 minutes.
+
+PRODUCTION NOTE: The bracketed ON-SCREEN cues are for recording only. Remove them when you replace this draft with the final transcript.
+
+[ON SCREEN, 0:00] Repository README: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/README.md
+[ON SCREEN, 0:20] App code: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/app.py
+[ON SCREEN, 0:45] Portfolio engine: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/portfolio.py
+[ON SCREEN, 1:10] Price source file: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/prices.csv
+[ON SCREEN, 2:20] Live app baseline comparison: http://localhost:8501
+[ON SCREEN, 3:35] Changed-input record: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/locked-changed-input-record.md
+[ON SCREEN, 4:05] Point-in-time data card: https://github.com/karabraccio4/TICKER.research/blob/main/project-02-portfolio-stability/docs/point-in-time-signal.md
+
+I used OpenAI Codex as a coding and documentation assistant. I checked the model outputs and evidence; the analysis and decision are mine. This is an educational demonstration, not investment advice.
+
+This is a technical walkthrough of my Project 2 portfolio-stability application. The repository has four main pieces. `app.py` is the Streamlit interface. `portfolio.py` contains the portfolio calculations, input validation, price-to-return estimates, and transparent 5-point grid search. `prices.csv` contains the completed monthly adjusted-close prices for BIL, IEF, LQD, and VT from October 2021 through September 2026. `project2_report.py` reproduces the visible result from the command line.
+
+[ON SCREEN: show the README file map, then open `app.py`, `portfolio.py`, `prices.csv`, and `project2_report.py` in VS Code or GitHub.]
+
+The data flow starts with monthly adjusted-close prices. The code converts each pair of adjacent prices into a monthly return. It annualizes each asset's arithmetic average monthly return by multiplying by twelve. It calculates sample volatility and correlations from the same monthly-return sample, then builds the covariance matrix. These historical estimates describe the sample; they are not forecasts.
+
+The decision number comes from `find_lowest_risk_mix` in `portfolio.py`. The function creates all long-only allocations in 5-percentage-point increments that sum to 100%. For every candidate, it calculates expected return, reserve-eligible weight, and covariance-based volatility. It rejects a mix if expected return is below 5.5% or BIL plus IEF is below 20%. Among the remaining feasible mixes, it keeps the one with the lowest volatility. In the full-history baseline, that is 75% BIL and 25% VT, with 5.51% expected return, 3.84% volatility, and 75% reserve eligible.
+
+[ON SCREEN: highlight `find_lowest_risk_mix` in `portfolio.py`, then show the matching live-app result.]
+
+The app also compares that constrained mix with two transparent baselines. Equal weight puts 25% in each sleeve. Inverse volatility assigns weights in proportion to one divided by each sleeve's volatility. Under the same Project 2 mandate, both of those baselines fail the 5.5% return rule, even though each passes the reserve rule. This comparison makes the constrained result easier to evaluate than showing only one optimized answer.
+
+For validation, I ran a changed-input test. I first locked the predicted effect of reducing VT's expected return from 11.05% to 10.05% per year, then ran the same constraints. The allocation moved from 75% BIL and 25% VT to 70% BIL and 30% VT. Volatility rose from 3.84% to 4.58%, reserve eligibility fell from 75% to 70%, and the mandate remained feasible. That result shows the process is estimate-sensitive.
+
+[ON SCREEN: show the locked changed-input record and the before/after result in the app or saved screenshots.]
+
+The app also includes a point-in-time Federal Funds Effective Rate monitor. At the September 30, 2026 decision date, the latest knowable monthly observation was August at 3.63%. I excluded September's 3.75% observation because it was published October 1. The monitor provides rate context for the reserve sleeve but does not automatically alter the allocation.
+
+One failure mode was the uploaded CSV arriving as bytes rather than text. I tested the corrected decoder with the same `prices.csv` upload and confirmed it reads all four tickers. A broader limitation is that changing the historical window or return estimates can move the allocation. To reproduce the result, follow `README.md` and run `python project2_report.py`, or start the Streamlit app with `python -m streamlit run app.py`.
+
+[ON SCREEN: upload `prices.csv`, show the four ticker controls, then return to README.md for the reproduction command.]
+
+After recording: replace this draft with the actual corrected transcript, add the final YouTube URL and duration to `docs/video-manifest.md` and `docs/submission-manifest.md`, and verify that captions correctly show BIL, IEF, LQD, VT, FEDFUNDS, 5.5%, and 20%.
