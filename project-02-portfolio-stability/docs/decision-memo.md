@@ -1,9 +1,13 @@
 # Decision memo — Project 2 portfolio stability
 
+**AI-use disclosure:** I used OpenAI Codex as a coding and documentation assistant. I checked the model outputs and evidence; the analysis and decision are mine.
+
+**Education statement:** This is an educational demonstration, not investment advice.
+
 **Decision date:** November 17, 2026
 **Client:** Community arts nonprofit reserve fund
 **Horizon:** Five years
-**Decision:** **Pilot, not adopt.** Use the baseline allocation only as a starting allocation. Reverse this decision only after the client approves a forward-looking return-estimate method and the history window.
+**Decision:** **Pilot, not adopt.** Subject to the stated inputs, authorize a limited **70–75% BIL / 25–30% VT** pilot range, not a permanent target. Pause or reverse the pilot until the client approves a forward-looking return-estimate method and history window.
 
 ## Mandate and method
 
@@ -28,5 +32,13 @@ The rate monitor uses the latest **knowable** Federal Funds Effective Rate (`FED
 ## Committee rationale and limits
 
 The model supplies a feasible, low-volatility starting point, but not enough evidence for adoption. The history-window test changes the BIL/VT allocation by 15 points, and the VT estimate stress case changes the allocation by 5 points while increasing volatility. Before adoption, the client must approve the forward-looking return-estimate method and the appropriate history window. The committee should also review implementation costs, tax considerations, liquidity assumptions, and whether the model's 5-point allocation grid is sufficiently precise.
+
+## Committee ask, monitoring, and reversal triggers
+
+**Committee ask:** Approve a limited pilot only within the 70–75% BIL / 25–30% VT range while the client selects a forward-looking return-estimate method and history window. Do not approve a permanent strategic allocation from these historical estimates alone.
+
+**Monitor:** Re-run the model whenever the client changes the 20% reserve requirement, the data window, return-estimate method, liquidity terms, implementation costs, or tax assumptions. For the rate monitor, retain the ALFRED vintage applicable to every decision date.
+
+**Pause or reverse the pilot if:** the portfolio cannot meet the 5.5% return objective and 20% reserve rule; a reasonable return-estimate or window update moves the allocation more than 5 percentage points; the applicable ALFRED vintage cannot be reproduced; or the client does not approve the assumptions that define the range.
 
 Reproduction: run `python project2_report.py` from the repository root. See [validation-and-ai-use.md](validation-and-ai-use.md) for the source boundary, validation record, AI-use disclosure, and Locked Changed-Input Record status.

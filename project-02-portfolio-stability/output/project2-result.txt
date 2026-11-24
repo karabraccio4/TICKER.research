@@ -30,4 +30,4 @@ Stress - VT expected return decreased by 1.0 percentage point
   Volatility: 4.58%
   Reserve eligible: 70.0%
 
-Decision: PILOT, not adopt. Reconsider after approving a forward-looking return-estimate method and history window.
+Decision: PILOT a 70–75% BIL / 25–30% VT range, not adopt. Pause or reverse until approving a forward-looking return-estimate method and history window.

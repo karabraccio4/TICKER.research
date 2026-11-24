@@ -76,7 +76,7 @@ def main() -> None:
     print_result("Window check - last 36 monthly returns", last_36_months=True)
     print()
     print_result("Stress - VT expected return decreased by 1.0 percentage point", vt_return_change=-0.01)
-    print("\nDecision: PILOT, not adopt. Reconsider after approving a forward-looking return-estimate method and history window.")
+    print("\nDecision: PILOT a 70–75% BIL / 25–30% VT range, not adopt. Pause or reverse until approving a forward-looking return-estimate method and history window.")
 
 
 if __name__ == "__main__":

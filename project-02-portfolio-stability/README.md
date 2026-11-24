@@ -1,10 +1,14 @@
 # Project 2 — Portfolio stability decision
 
+**AI-use disclosure:** I used OpenAI Codex as a coding and documentation assistant. I checked the model outputs and evidence; the analysis and decision are mine.
+
+**Education statement:** This is an educational demonstration, not investment advice.
+
 This repository supports a proposed reserve-fund allocation for a community arts nonprofit with a five-year horizon. It is a classroom model, not investment advice.
 
 ## Decision
 
-**Pilot, not adopt:** use the baseline mix only as a starting allocation. Reverse that decision only after the client approves a forward-looking return-estimate method and the history window; the historical-window check moves 15 percentage points between BIL and VT.
+**Pilot, not adopt:** subject to the stated inputs, pilot a **70–75% BIL / 25–30% VT** range rather than approve a permanent target. Reverse or pause the pilot until the client approves a forward-looking return-estimate method and history window; the historical-window check moves 15 percentage points between BIL and VT.
 
 The decision memo, data dates, conditions, and the exact numbers are in [docs/decision-memo.md](docs/decision-memo.md). A GitHub-readable copy of the result is in [output/project2-result.txt](output/project2-result.txt).
 
