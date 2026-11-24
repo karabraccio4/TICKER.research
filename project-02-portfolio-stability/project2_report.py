@@ -14,8 +14,10 @@ from pathlib import Path
 
 from portfolio import (
     covariance_matrix,
+    equal_weight_portfolio,
     estimates_from_prices,
     find_lowest_risk_mix,
+    inverse_volatility_portfolio,
     portfolio_return,
     portfolio_volatility,
 )
@@ -48,9 +50,27 @@ def print_result(label: str, last_36_months: bool = False, vt_return_change: flo
     print(f"{label}\n  Mix: {weights}\n  Expected return: {expected_return * 100:.2f}%\n  Volatility: {volatility * 100:.2f}%\n  Reserve eligible: {reserve_weight * 100:.1f}%")
 
 
+def print_baselines() -> None:
+    """Print the two transparent baselines under the same Project 2 mandate."""
+    sleeves, correlations = estimates_from_prices(PRICE_FILE)
+    for label, mix in (
+        ("Equal-weight baseline", equal_weight_portfolio(sleeves)),
+        ("Inverse-volatility baseline", inverse_volatility_portfolio(sleeves)),
+    ):
+        expected_return = portfolio_return(mix, sleeves)
+        volatility = portfolio_volatility(mix, covariance_matrix(sleeves, correlations))
+        reserve_weight = sum(mix[name] for name in RESERVE_ELIGIBLE)
+        return_verdict = "PASS" if expected_return >= OBJECTIVE else f"FAIL (below {OBJECTIVE * 100:.1f}% return objective)"
+        reserve_verdict = "PASS" if reserve_weight >= MINIMUM_RESERVE else f"FAIL (below {MINIMUM_RESERVE * 100:.1f}% reserve minimum)"
+        overall = "PASS" if expected_return >= OBJECTIVE and reserve_weight >= MINIMUM_RESERVE else "FAIL"
+        print(f"{label}\n  Expected return: {expected_return * 100:.2f}% ({return_verdict})\n  Volatility: {volatility * 100:.2f}%\n  Reserve eligible: {reserve_weight * 100:.1f}% ({reserve_verdict})\n  Mandate verdict: {overall}")
+
+
 def main() -> None:
     print("Project 2: Portfolio stability decision")
     print("Mandate: expected return >= 5.5%; BIL + IEF >= 20.0%; long-only 5-point grid.\n")
+    print_baselines()
+    print()
     print_result("Baseline - all 59 monthly returns")
     print()
     print_result("Window check - last 36 monthly returns", last_36_months=True)

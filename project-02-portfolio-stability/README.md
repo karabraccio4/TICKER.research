@@ -30,6 +30,8 @@ In the sidebar, upload the checked-in `prices.csv`, leave **Use only the last 36
 
 `portfolio.py` turns monthly adjusted-close prices into annualized arithmetic-mean return estimates, sample volatility, and correlations. It enumerates every long-only allocation on a 5-percentage-point grid and retains the feasible mix with the lowest `sqrt(w' covariance w)`. A mix must have expected return at least 5.5% and BIL + IEF at least 20.0%.
 
+The interactive app also compares the constrained portfolio with two transparent baselines under the same mandate: equal weight and inverse volatility (weights proportional to `1 / volatility`). It states whether each portfolio passes the return and reserve rules, including the rule that fails.
+
 | File | Purpose |
 |---|---|
 | `project2_report.py` | Reproducible command-line decision report |

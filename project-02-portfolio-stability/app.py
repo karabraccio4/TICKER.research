@@ -15,8 +15,10 @@ from portfolio import (
     RESERVE_ELIGIBLE,
     SLEEVES,
     covariance_matrix,
+    equal_weight_portfolio,
     estimates_from_prices,
     find_lowest_risk_mix,
+    inverse_volatility_portfolio,
     portfolio_return,
     portfolio_volatility,
 )
@@ -62,6 +64,40 @@ def show_answer(
     three.metric("Reserve eligible", f"{reserve_weight * 100:.2f}%")
 
 
+def mandate_row(
+    name: str,
+    mix: dict[str, float] | None,
+    sleeves: dict[str, dict[str, float]],
+    correlations: dict[str, dict[str, float]],
+    reserve: set[str],
+    objective: float,
+    reserve_minimum: float,
+) -> dict[str, str]:
+    """Return one baseline's measures and explicit verdict for every mandate rule."""
+    if mix is None:
+        return {
+            "Portfolio": name,
+            "Expected return": "not feasible",
+            "Volatility": "not available",
+            "Reserve eligible": "not feasible",
+            "Return rule": "FAIL — no feasible mix",
+            "Reserve rule": "FAIL — no feasible mix",
+            "Mandate verdict": "FAIL",
+        }
+    expected, volatility, reserve_weight = mix_measures(mix, sleeves, correlations, reserve)
+    return_passes = expected + 1e-12 >= objective
+    reserve_passes = reserve_weight + 1e-12 >= reserve_minimum
+    return {
+        "Portfolio": name,
+        "Expected return": f"{expected * 100:.2f}%",
+        "Volatility": f"{volatility * 100:.2f}%",
+        "Reserve eligible": f"{reserve_weight * 100:.1f}%",
+        "Return rule": "PASS" if return_passes else f"FAIL — below {objective * 100:.1f}%",
+        "Reserve rule": "PASS" if reserve_passes else f"FAIL — below {reserve_minimum * 100:.1f}%",
+        "Mandate verdict": "PASS" if return_passes and reserve_passes else "FAIL",
+    }
+
+
 st.set_page_config(page_title="Portfolio Stability Decision", page_icon="Portfolio", layout="wide")
 st.title("Portfolio Stability Decision")
 st.caption("Built with AI help, a learning demonstration, not investment advice.")
@@ -78,9 +114,11 @@ try:
         loaded_sleeves = copy_sleeves(SLEEVES)
         loaded_correlations = CORRELATIONS
         data_label = "Meridian course inputs"
+        default_reserve = RESERVE_ELIGIBLE
     else:
         loaded_sleeves, loaded_correlations = estimates_from_prices(uploaded_prices, last_36_months=False)
         data_label = "CSV historical estimates (all available monthly returns)"
+        default_reserve = {"BIL", "IEF"}
         if last_36_months:
             current_sleeves, current_correlations = estimates_from_prices(uploaded_prices, last_36_months=True)
         else:
@@ -105,9 +143,9 @@ st.subheader("Reserve-eligible assets")
 current_reserve = {
     name
     for name in current_sleeves
-    if st.checkbox(name, value=name in RESERVE_ELIGIBLE, key=f"reserve_{name}")
+    if st.checkbox(name, value=name in default_reserve, key=f"reserve_{name}")
 }
-loaded_reserve = {name for name in loaded_sleeves if name in RESERVE_ELIGIBLE}
+loaded_reserve = {name for name in loaded_sleeves if name in default_reserve}
 
 current_mix = find_lowest_risk_mix(
     current_sleeves, current_correlations, objective, current_reserve, reserve_minimum
@@ -121,6 +159,42 @@ with left:
     show_answer("Lowest-risk mix: current inputs", current_mix, current_sleeves, current_correlations, current_reserve)
 with right:
     show_answer("Answer for inputs as loaded", loaded_mix, loaded_sleeves, loaded_correlations, loaded_reserve)
+
+st.subheader("Mandate comparison: two baselines and constrained portfolio")
+st.caption("Every portfolio uses the current return estimates, the same reserve-eligible definition, and the same mandate.")
+st.dataframe(
+    [
+        mandate_row(
+            "Equal-weight baseline",
+            equal_weight_portfolio(current_sleeves),
+            current_sleeves,
+            current_correlations,
+            current_reserve,
+            objective,
+            reserve_minimum,
+        ),
+        mandate_row(
+            "Inverse-volatility baseline",
+            inverse_volatility_portfolio(current_sleeves),
+            current_sleeves,
+            current_correlations,
+            current_reserve,
+            objective,
+            reserve_minimum,
+        ),
+        mandate_row(
+            "Constrained lowest-risk portfolio",
+            current_mix,
+            current_sleeves,
+            current_correlations,
+            current_reserve,
+            objective,
+            reserve_minimum,
+        ),
+    ],
+    hide_index=True,
+    width="stretch",
+)
 
 if current_mix is not None and loaded_mix is not None:
     largest_change = max(abs(current_mix[name] - loaded_mix[name]) for name in current_mix) * 100
