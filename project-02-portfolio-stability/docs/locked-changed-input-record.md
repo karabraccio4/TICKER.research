@@ -5,12 +5,13 @@
 ## Prediction before rerun
 
 - Input selected: VT annual expected-return estimate.
-- Baseline value and unit: record the printed baseline VT annual estimate from the app, in percent.
-- New value and unit: baseline VT annual estimate minus **1.0 percentage point**.
-- Expected direction: I expect the model to require a larger VT weight to clear the same 5.5% objective after each percentage point of VT return is reduced; therefore BIL should fall, volatility should rise, and reserve-eligible weight should fall.
-- Expected decision effect: The mandate should remain feasible, but the pilot-not-adopt decision should not become stronger because the allocation is estimate-sensitive.
-- Prediction commit hash and GitHub URL: **[fill before rerun]**
+-  Baseline value and unit: 11.05% per year.
+- New value and unit: 10.05% per year.
+- Change: -1.00 percentage point
+- Expected direction: I expect the model to adjust the portfolio allocation after VT's expected return decreases from 11.05% to 10.05%. I expect the portfolio's expected return to decrease unless the model compensates by changing the allocation. Volatility may increase if the model shifts more weight toward VT, while reserve-eligible weight may decrease.
+- Prediction commit hash and GitHub URL: To be added after committing.
 
+- Expected decision effect: I expect lowering VT's expected return to make it harder for the portfolio to meet the 5.50% return objective. Since the baseline portfolio only slightly exceeds the objective, the mandate may become infeasible. This would support my recommendation to pilot the strategy rather than fully adopt it.
 ## Observed after rerun
 
 - Command/tool settings used:
@@ -20,6 +21,6 @@
 - Did the decision line change?
 - Did the result match the prediction? Why or why not?
 
-### Prior reproducible reference (not a substitute for the locked Lab 20 record)
 
-The existing model run with VT reduced by 1.0 percentage point produced 70% BIL / 0% IEF / 0% LQD / 30% VT, 5.58% expected return, 4.58% volatility, and 70.0% reserve eligible. It is shown so the student can detect a software or settings mismatch, not so this record can be falsely represented as having been committed before a Lab 20 rerun.
+
+- Prediction timestamp: November 23, 2026, [7:50 pm] EST.
